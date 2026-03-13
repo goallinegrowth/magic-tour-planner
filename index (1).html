@@ -1,549 +1,1658 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magic Tour Planner | Viajes a Disney y Orlando para Equipos y Familias</title>
-    <meta name="description" content="Planificación completa de viajes a Disney y Universal Orlando para equipos deportivos y familias hispanas. Torneos, logística y experiencias inolvidables.">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Magic Tours Planner — Magia a Tu Manera</title>
+  <meta name="description" content="Tu planificador autorizado de vacaciones Disney. Especializados en familias latinas, grupos, quinceañeras, bodas y eventos especiales en Walt Disney World." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            heading: ['Playfair Display', 'serif'],
+            body: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* ── Brand tokens ── */
+    :root {
+      --p:  #7C3AED;
+      --pd: #5B21B6;
+      --pp: #3B0764;
+      --pk: #D946EF;
+      --go: #F59E0B;
+      --dark: #0D0520;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body { font-family: 'Inter', sans-serif; overflow-x: hidden; width: 100%; margin: 0; padding: 0; color: #1F1435; background-color: #070515; }
+    .font-heading { font-family: 'Playfair Display', serif; }
+
+    /* ── Gradient text ── */
+    .grad-pink  { background: linear-gradient(135deg, #D946EF, #A78BFA, #60A5FA); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .grad-gold  { background: linear-gradient(135deg, #F59E0B, #FDE68A, #F59E0B); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .grad-purple{ background: linear-gradient(135deg, #7C3AED, #D946EF);           -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      background: linear-gradient(135deg, #7C3AED, #D946EF);
+      color: #fff; padding: 14px 32px; border-radius: 50px;
+      font-weight: 700; font-size: 15px; letter-spacing: .3px;
+      transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      box-shadow: 0 4px 20px rgba(124,58,237,.45);
+      display: inline-flex; align-items: center; gap: 8px;
+      cursor: pointer; border: none; text-decoration: none;
+    }
+    .btn-primary:hover {
+      transform: scale(1.03);
+      box-shadow: 0 10px 35px rgba(124,58,237,.65);
+    }
+    .btn-primary:active {
+      transform: scale(0.97);
+    }
+
+    .btn-outline {
+      background: transparent; color: #fff;
+      padding: 13px 32px; border-radius: 50px;
+      font-weight: 700; font-size: 15px;
+      border: 2px solid rgba(255,255,255,.35);
+      transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  background 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  border-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      display: inline-flex; align-items: center; gap: 8px;
+      text-decoration: none;
+    }
+    .btn-outline:hover {
+      transform: scale(1.03);
+      border-color: #fff; background: rgba(255,255,255,.1);
+    }
+    .btn-outline:active {
+      transform: scale(0.97);
+    }
+
+    /* ── Geometric floating shapes ── */
+    @keyframes geo-enter {
+      from { opacity: 0; transform: translateY(-150px) rotate(calc(var(--rot) - 15deg)); }
+      to   { opacity: 1; transform: translateY(0px)    rotate(var(--rot)); }
+    }
+    @keyframes geo-bob {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(15px); }
+    }
+    .geo-shape {
+      position: absolute; opacity: 0; z-index: 2;
+      animation: geo-enter 2.4s cubic-bezier(0.23, 0.86, 0.39, 0.96) var(--delay, 0s) forwards;
+    }
+    .geo-bob { animation: geo-bob 12s ease-in-out infinite; }
+    .geo-pill {
+      border-radius: 9999px;
+      border: 2px solid rgba(255,255,255,.14);
+      backdrop-filter: blur(2px);
+      box-shadow: 0 8px 32px rgba(255,255,255,.07);
+      position: relative; overflow: hidden;
+    }
+    .geo-pill::after {
+      content: '';
+      position: absolute; inset: 0; border-radius: 9999px;
+      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,.18), transparent 70%);
+    }
+
+    /* ── Hero ── */
+    .hero-bg {
+      background:
+        /* Warm chandelier glow from above — castle ceiling light */
+        radial-gradient(ellipse 100% 45% at 50% -2%, rgba(200,155,45,0.14) 0%, transparent 60%),
+        /* Stained-glass purple atmosphere left */
+        radial-gradient(ellipse 55% 70% at 8%  55%, rgba(95,25,190,0.30) 0%, transparent 55%),
+        /* Stained-glass purple atmosphere right */
+        radial-gradient(ellipse 55% 70% at 92% 55%, rgba(95,25,190,0.30) 0%, transparent 55%),
+        /* Pink/magenta accent — rose window glow */
+        radial-gradient(ellipse 40% 30% at 50% 30%, rgba(180,40,160,0.10) 0%, transparent 55%),
+        /* Deep shadow at floor */
+        radial-gradient(ellipse 90% 35% at 50% 108%, rgba(4,2,12,0.98) 0%, transparent 65%),
+        /* Rich dark castle-interior base */
+        linear-gradient(168deg, #070515 0%, #100830 35%, #0C0F38 65%, #060910 100%);
+      position: relative; overflow: hidden;
+    }
+    /* Subtle architectural texture overlay */
+    .hero-bg::after {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none; z-index: 1;
+      background-image:
+        repeating-linear-gradient(
+          90deg,
+          rgba(160,100,255,0.022) 0px, rgba(160,100,255,0.022) 1px,
+          transparent 1px, transparent 120px
+        ),
+        repeating-linear-gradient(
+          0deg,
+          rgba(160,100,255,0.018) 0px, rgba(160,100,255,0.018) 1px,
+          transparent 1px, transparent 120px
+        );
+    }
+    .stars-wrap { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .star {
+      position: absolute; border-radius: 50%;
+      animation: twinkle var(--d, 3s) var(--dl, 0s) ease-in-out infinite;
+    }
+    @keyframes twinkle {
+      0%,100% { opacity: .15; transform: scale(1); }
+      50%      { opacity: 1;   transform: scale(1.4); }
+    }
+    .orb {
+      position: absolute; border-radius: 50%; pointer-events: none;
+      filter: blur(80px); opacity: .15;
+    }
+    @keyframes float-y {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-22px); }
+    }
+    .float { animation: float-y 6s ease-in-out infinite; }
+
+    /* ── Hero park marquee ── */
+    .hero-marquee {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 32vh;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 28%, black 82%, transparent 100%);
+      mask-image: linear-gradient(to bottom, transparent 0%, black 28%, black 82%, transparent 100%);
+      pointer-events: none;
+      z-index: 4;
+    }
+    @media (min-width: 768px) { .hero-marquee { height: 38vh; } }
+    .hero-marquee-track {
+      display: flex;
+      gap: 14px;
+      align-items: flex-end;
+      padding-bottom: 10px;
+      width: max-content;
+      animation: hero-scroll 48s linear infinite;
+    }
+    @keyframes hero-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .hero-park-card {
+      flex-shrink: 0;
+      position: relative;
+      width: 120px;
+      height: 160px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 10px 36px rgba(0,0,0,.5);
+    }
+    @media (min-width: 768px) { .hero-park-card { width: 168px; height: 224px; border-radius: 18px; } }
+    .hero-park-card img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .hero-park-card .park-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 32px 8px 9px;
+      background: linear-gradient(to top, rgba(0,0,0,.78), transparent);
+      color: #fff; font-size: 10px; font-weight: 700;
+      text-align: center; letter-spacing: 0.05em; line-height: 1.3;
+    }
+    @media (min-width: 768px) { .hero-park-card .park-label { font-size: 12px; } }
+    /* Alternating tilt */
+    .hero-park-card:nth-child(odd)  { transform: rotate(-2.5deg); }
+    .hero-park-card:nth-child(even) { transform: rotate(4.5deg); }
+
+    /* ── Navbar ── */
+    #nav-wrapper {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      right: 1rem;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+    }
+    #nav {
+      pointer-events: auto;
+      background: transparent;
+      border-radius: 9999px;
+      position: relative;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 1280px;
+      transition: background .35s, box-shadow .35s, backdrop-filter .35s;
+    }
+    #nav.solid {
+      background: rgba(15, 8, 38, 0.85); /* Changed to dark glass */
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 4px 30px rgba(0,0,0,.25);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .nav-link { font-size: 14px; font-weight: 600; color: rgba(255,255,255,.85); text-decoration: none; transition: color .2s; }
+    .nav-link:hover { color: #fff; }
+    #nav.solid .nav-link { color: #E9D5FF; }
+    #nav.solid .nav-link:hover { color: #fff; }
+
+    /* ── Language toggle ── */
+    .lang-wrap {
+      display: flex; border-radius: 50px; overflow: hidden;
+      border: 1.5px solid rgba(255,255,255,.3); background: rgba(255,255,255,.1);
+    }
+    #nav.solid .lang-wrap { border-color: rgba(124,58,237,.35); background: rgba(124,58,237,.08); }
+    .lang-btn {
+      padding: 4px 14px; font-size: 12px; font-weight: 700;
+      cursor: pointer; border: none; background: transparent; color: rgba(255,255,255,.6);
+      transition: all .2s;
+    }
+    .lang-btn.on { background: #fff; color: #7C3AED; border-radius: 50px; }
+    #nav.solid .lang-btn { color: #7C3AED; }
+    #nav.solid .lang-btn.on { background: #7C3AED; color: #fff; }
+
+    /* ── Mobile menu ── */
+    #mob-menu {
+      display: none; position: absolute; left: 0; right: 0; top: 100%; margin-top: 10px;
+      background: rgba(15, 8, 38, 0.95); backdrop-filter: blur(16px); padding: 12px 16px 20px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.3); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px;
+    }
+    #mob-menu.open { display: block; }
+    @media (min-width: 768px) {
+      #mob-menu.open { display: none !important; }
+    }
+    #mob-menu a {
+      display: block; padding: 10px 12px; border-radius: 10px;
+      font-weight: 600; font-size: 14px; color: #E9D5FF;
+      text-decoration: none; transition: background .2s, color .2s;
+    }
+    #mob-menu a:hover { background: rgba(124, 58, 237, 0.2); color: #fff; }
+    #ham-icon { cursor: pointer; color: rgba(255,255,255,.9); font-size: 20px; transition: color .2s; }
+    #nav.solid #ham-icon { color: #E9D5FF; }
+
+    /* ── Section labels ── */
+    .label {
+      display: inline-block; font-size: 12px; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase; color: #7C3AED;
+      margin-bottom: 12px;
+    }
+
+    /* ── Display Cards (services) ── */
+    .dc-stack-wrap { padding: 44px 108px 100px 0; } /* room for hover-up / translateX / translateY */
+    .dc-stack { position: relative; width: 352px; height: 144px; }
+    .dc-card {
+      position: absolute; top: 0; left: 0;
+      width: 352px; height: 144px;
+      border-radius: 14px; border: 2px solid #EDE9FE;
+      background: rgba(250,245,255,.94);
+      backdrop-filter: blur(8px);
+      padding: 14px 18px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      transition: transform 700ms cubic-bezier(0.4,0,0.2,1), filter 700ms, border-color 500ms;
+      cursor: default;
+      box-shadow: 0 2px 14px rgba(124,58,237,.07);
+    }
+    /* Right-edge fade to white — creates the depth/stack illusion */
+    .dc-card::after {
+      content: ''; position: absolute; right: -4px; top: -5%;
+      width: 190px; height: 110%;
+      background: linear-gradient(to left, #fff 20%, transparent);
+      pointer-events: none; border-radius: 0 14px 14px 0; z-index: 5;
+    }
+    /* Greyscale overlay on back/middle cards */
+    .dc-back::before {
+      content: ''; position: absolute; inset: 0; border-radius: 13px;
+      background: rgba(255,255,255,.52); transition: opacity 700ms;
+      z-index: 4; pointer-events: none;
+    }
+    .dc-row { display: flex; align-items: center; gap: 10px; position: relative; z-index: 2; }
+    .dc-icon-wrap {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 34px; height: 34px; border-radius: 50%; font-size: 18px; flex-shrink: 0;
+    }
+    .dc-title { font-size: 16px; font-weight: 700; line-height: 1.2; }
+    .dc-desc  { font-size: 12.5px; color: #6B7280; line-height: 1.5; position: relative; z-index: 2; }
+    .dc-meta  { position: relative; z-index: 2; }
+    .dc-meta a { font-size: 12px; font-weight: 700; color: #C4B5FD; text-decoration: none; transition: color .2s; }
+    .dc-meta a:hover { color: #7C3AED; }
+
+    /* Base positions */
+    .dc-p2 { transform: skewY(-8deg);                              filter: grayscale(100%); z-index: 1; }
+    .dc-p1 { transform: translateX(48px) translateY(40px) skewY(-8deg); filter: grayscale(100%); z-index: 2; }
+    .dc-p0 { transform: translateX(96px) translateY(80px) skewY(-8deg); z-index: 3; border-color: rgba(167,139,250,.3); }
+
+    /* Hover states */
+    .dc-p2:hover { transform: translateY(-40px) skewY(-8deg); filter: grayscale(0%); border-color: rgba(124,58,237,.3); z-index: 10; }
+    .dc-p2:hover::before { opacity: 0; }
+    .dc-p1:hover { transform: translateX(48px) translateY(36px) skewY(-8deg); filter: grayscale(0%); border-color: rgba(124,58,237,.3); z-index: 10; }
+    .dc-p1:hover::before { opacity: 0; }
+    .dc-p0:hover { transform: translateX(96px) translateY(120px) skewY(-8deg); }
+
+    /* Mobile */
+    @media (max-width: 640px) {
+      .dc-stack, .dc-card { width: 268px; height: 132px; }
+      .dc-stack-wrap { padding: 36px 80px 80px 0; }
+      .dc-p1 { transform: translateX(36px) translateY(32px) skewY(-8deg); }
+      .dc-p0 { transform: translateX(72px) translateY(64px) skewY(-8deg); }
+      .dc-p1:hover { transform: translateX(36px) translateY(28px) skewY(-8deg); }
+      .dc-p0:hover { transform: translateX(72px) translateY(96px) skewY(-8deg); }
+    }
+
+    /* ── Service cards (kept for potential reuse) ── */
+    .svc-card {
+      background: #fff; border-radius: 20px; padding: 28px 24px;
+      border: 1px solid #EDE9FE;
+      transition: transform .3s, box-shadow .3s, border-color .3s;
+      cursor: default;
+    }
+    .svc-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 50px rgba(124,58,237,.13);
+      border-color: #C084FC;
+    }
+    .svc-icon {
+      width: 68px; height: 68px; border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, rgba(124,58,237,.09) 0%, rgba(217,70,239,.07) 100%);
+      border: 1.5px solid rgba(124,58,237,.18);
+      box-shadow: 0 4px 20px rgba(124,58,237,.14), 0 1px 4px rgba(124,58,237,.08);
+      transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+    }
+    .svc-card:hover .svc-icon {
+      transform: scale(1.1);
+      box-shadow: 0 8px 32px rgba(124,58,237,.25), 0 2px 8px rgba(217,70,239,.15);
+    }
+
+    /* ── USP cards ── */
+    .usp-card {
+      border-radius: 18px; padding: 28px 20px; text-align: center;
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.1);
+      transition: background .3s;
+    }
+    .usp-card:hover { background: rgba(255,255,255,.14); }
+
+    /* ── Audience cards ── */
+    .aud-card {
+      border-radius: 20px; padding: 28px 24px; position: relative;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .aud-card:hover { transform: translateY(-5px); box-shadow: 0 14px 40px rgba(0,0,0,.08); }
+
+    /* ── Testimonial cards ── */
+    .test-card {
+      background: #fff; border-radius: 20px; padding: 28px 24px;
+      border: 1px solid #EDE9FE;
+      transition: box-shadow .3s;
+    }
+    .test-card:hover { box-shadow: 0 12px 40px rgba(124,58,237,.1); }
+
+    /* ── Steps connector ── */
+    .steps-line {
+      position: absolute; top: 40px; left: calc(50% + 60px);
+      width: calc(100% - 120px); height: 2px;
+      background: linear-gradient(90deg, #C084FC, #7C3AED);
+    }
+
+    /* ── WhatsApp bubble ── */
+    .wa-bubble {
+      position: fixed; bottom: 28px; right: 28px; z-index: 200;
+      width: 60px; height: 60px; border-radius: 50%;
+      background: #25D366; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; box-shadow: 0 6px 24px rgba(37,211,102,.5);
+      text-decoration: none; transition: transform .3s, box-shadow .3s;
+    }
+    .wa-bubble:hover { transform: scale(1.1); box-shadow: 0 10px 36px rgba(37,211,102,.7); }
+
+    /* ── Scroll reveal ── */
+    .reveal { opacity: 0; transform: translateY(32px); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ── Badge ── */
+    .badge {
+      position: absolute; top: 18px; right: 18px;
+      padding: 4px 12px; border-radius: 50px;
+      font-size: 11px; font-weight: 800; color: #fff; letter-spacing: .05em;
+    }
+
+    /* ── Body font-size mobile ── */
+    body { font-size: 16px; color: #E2E8F0; background-color: #070515;}
+
+    h1, h2, h3, h4, h5, h6 { color: #ffffff; }
+
+    /* ── Dark Sections ── */
+    .bg-white { background-color: transparent !important; }
+    .text-gray-900 { color: #ffffff !important; }
+    .text-gray-500, .text-gray-600 { color: rgba(255, 255, 255, 0.65) !important; }
+    .text-gray-400 { color: rgba(255, 255, 255, 0.45) !important; }
+
+    /* ── Glassmorphism Panel ── */
+    .glass-panel {
+      background: rgba(25, 15, 35, 0.4);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+    .glass-panel-hover:hover {
+      background: rgba(45, 25, 65, 0.5);
+      border-color: rgba(167, 139, 250, 0.3);
+      box-shadow: 0 12px 48px rgba(124, 58, 237, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
+
+    /* ── Form ── */
+    .field {
+      width: 100%; padding: 13px 16px; border-radius: 12px;
+      border: 1.5px solid rgba(255, 255, 255, 0.1); font-size: 14px; font-family: 'Inter', sans-serif;
+      outline: none; transition: border-color .2s, box-shadow .2s, background .2s;
+      color: #ffffff; background: rgba(0, 0, 0, 0.2);
+    }
+    .field:focus { border-color: #A78BFA; background: rgba(0, 0, 0, 0.4); box-shadow: 0 0 0 3px rgba(167,139,250,.18); }
+    .field-label { display: block; font-size: 13px; font-weight: 600; color: #D8B4FE; margin-bottom: 6px; }
+    .field::placeholder { color: rgba(255,255,255,0.3); }
+
+    /* ── Footer ── */
+    footer { background: #05030A; border-top: 1px solid rgba(255,255,255,0.05); }
+
+    /* ── Divider wave ── */
+    .wave-top { display: block; margin-bottom: -1px; }
+  </style>
 </head>
-<body class="font-sans">
-    
-    <!-- Navigation -->
-    <nav class="fixed w-full bg-white shadow-md z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex items-center">
-                    <div class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">
-                        ✨ Magic Tour Planner
-                    </div>
-                </div>
-                
-                <div class="hidden md:flex space-x-8">
-                    <a href="#inicio" class="nav-link">Inicio</a>
-                    <a href="#equipos" class="nav-link">Para Equipos</a>
-                    <a href="#familias" class="nav-link">Para Familias</a>
-                    <a href="#proceso" class="nav-link">Proceso</a>
-                    <a href="#testimonios" class="nav-link">Testimonios</a>
-                </div>
-                
-                <div class="hidden md:block">
-                    <a href="#contacto" class="btn-primary">Solicita tu Propuesta</a>
-                </div>
-                
-                <button id="mobile-menu-btn" class="md:hidden text-gray-600">
-                    <i class="fas fa-bars text-2xl"></i>
-                </button>
-            </div>
-        </div>
-        
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
-            <div class="px-4 py-4 space-y-3">
-                <a href="#inicio" class="mobile-nav-link">Inicio</a>
-                <a href="#equipos" class="mobile-nav-link">Para Equipos</a>
-                <a href="#familias" class="mobile-nav-link">Para Familias</a>
-                <a href="#proceso" class="mobile-nav-link">Proceso</a>
-                <a href="#testimonios" class="mobile-nav-link">Testimonios</a>
-                <a href="#contacto" class="btn-primary w-full text-center block">Solicita tu Propuesta</a>
-            </div>
-        </div>
-    </nav>
+<body>
 
-    <!-- Hero Section -->
-    <section id="inicio" class="pt-20 hero-gradient">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div class="text-center lg:text-left">
-                    <div class="inline-block mb-4">
-                        <span class="px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold">
-                            🏆 Especialistas en Torneos Disney & Viajes Familiares
-                        </span>
-                    </div>
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-                        Vivir la Magia de Disney,
-                        <span class="bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">
-                            Sin el Estrés
-                        </span>
-                    </h1>
-                    <p class="text-xl text-gray-600 mb-8 leading-relaxed">
-                        Ayudamos a equipos deportivos y familias hispanas a vivir experiencias inolvidables en Disney y Orlando, con planificación estratégica, logística organizada y acompañamiento en cada paso.
-                    </p>
-                    
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                        <a href="#contacto" class="btn-primary text-lg px-8 py-4">
-                            <i class="fas fa-calendar-check mr-2"></i>
-                            Agenda Consulta Gratis
-                        </a>
-                        <a href="#proceso" class="btn-secondary text-lg px-8 py-4">
-                            <i class="fas fa-play-circle mr-2"></i>
-                            Cómo Funciona
-                        </a>
-                    </div>
-                    
-                    <div class="mt-12 flex flex-wrap gap-8 justify-center lg:justify-start text-sm text-gray-600">
-                        <div class="flex items-center">
-                            <i class="fas fa-shield-alt text-purple-600 mr-2"></i>
-                            100% Personalizado
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-language text-purple-600 mr-2"></i>
-                            Soporte en Español
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-map-marked-alt text-purple-600 mr-2"></i>
-                            Basados en Florida
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="relative">
-                    <div class="relative rounded-2xl overflow-hidden shadow-2xl">
-                        <div class="aspect-[4/3] bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 flex items-center justify-center">
-                            <div class="text-center text-white p-8">
-                                <i class="fas fa-magic text-6xl mb-4"></i>
-                                <p class="text-2xl font-semibold">Tu Imagen Aquí</p>
-                                <p class="text-sm mt-2 opacity-90">Equipo en Disney o familia feliz</p>
-                            </div>
-                        </div>
-                        <div class="absolute bottom-4 left-4 right-4 bg-white rounded-xl shadow-xl p-4 backdrop-blur-sm bg-opacity-95">
-                            <div class="grid grid-cols-3 gap-4 text-center">
-                                <div>
-                                    <div class="text-2xl font-bold text-purple-600">100+</div>
-                                    <div class="text-xs text-gray-600">Equipos</div>
-                                </div>
-                                <div>
-                                    <div class="text-2xl font-bold text-purple-600">500+</div>
-                                    <div class="text-xs text-gray-600">Familias</div>
-                                </div>
-                                <div>
-                                    <div class="text-2xl font-bold text-purple-600">5★</div>
-                                    <div class="text-xs text-gray-600">Valoración</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- ══════════ WHATSAPP BUBBLE ══════════ -->
+<a href="https://wa.me/1234567890" target="_blank" rel="noopener" class="wa-bubble" title="WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
 
-    <!-- Services Section -->
-    <section class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="section-title">¿Quién Puede Vivir la Magia?</h2>
-                <p class="section-subtitle">Servicios personalizados para cada tipo de viajero</p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="service-card group">
-                    <div class="text-center mb-6">
-                        <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                            <i class="fas fa-trophy text-3xl text-purple-600"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Para Equipos Deportivos</h3>
-                        <p class="text-gray-600">Torneos Disney + Experiencia de Equipo</p>
-                    </div>
-                    
-                    <ul class="space-y-3 mb-8">
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-purple-600 mr-3 mt-1"></i>
-                            <span>Inscripción en torneos oficiales Disney</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-purple-600 mr-3 mt-1"></i>
-                            <span>Coordinación grupal completa</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-purple-600 mr-3 mt-1"></i>
-                            <span>Itinerarios flexibles entre partidos</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-purple-600 mr-3 mt-1"></i>
-                            <span>Soporte 24/7 durante el viaje</span>
-                        </li>
-                    </ul>
-                    
-                    <a href="#contacto" class="btn-primary w-full text-center block">
-                        Cotizar para Mi Equipo
-                    </a>
-                </div>
-                
-                <div class="service-card group">
-                    <div class="text-center mb-6">
-                        <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                            <i class="fas fa-heart text-3xl text-purple-600"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Para Familias</h3>
-                        <p class="text-gray-600">Vacaciones Mágicas Sin Estrés</p>
-                    </div>
-                    
-                    <ul class="space-y-3 mb-8">
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-purple-600 mr-3 mt-1"></i>
-                            <span>Paquetes Disney + Universal personalizados</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-purple-600 mr-3 mt-1"></i>
-                            <span>Estrategia día a día maximizada</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-purple-600 mr-3 mt-1"></i>
-                            <span>Reservas de restaurantes especiales</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-purple-600 mr-3 mt-1"></i>
-                            <span>Asistencia antes y durante el viaje</span>
-                        </li>
-                    </ul>
-                    
-                    <a href="#contacto" class="btn-primary w-full text-center block">
-                        Planear Vacaciones Familiares
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- ══════════ NAVBAR ══════════ -->
+<div id="nav-wrapper">
+<nav id="nav">
+  <div class="w-full flex items-center justify-between">
 
-    <!-- Process Section -->
-    <section id="proceso" class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="section-title">Nuestro Proceso Simple</h2>
-                <p class="section-subtitle">De la primera llamada a la magia realizada</p>
-            </div>
-            
-            <div class="grid md:grid-cols-4 gap-8">
-                <div class="process-step">
-                    <div class="process-number">1</div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Consulta Gratuita</h3>
-                    <p class="text-gray-600">Hablamos de tus necesidades, fechas y presupuesto. Sin compromiso.</p>
-                </div>
-                
-                <div class="process-step">
-                    <div class="process-number">2</div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Propuesta Personalizada</h3>
-                    <p class="text-gray-600">Itinerario detallado con precios transparentes y opciones flexibles.</p>
-                </div>
-                
-                <div class="process-step">
-                    <div class="process-number">3</div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Reservamos Todo</h3>
-                    <p class="text-gray-600">Hoteles, tickets, restaurantes y logística completa organizada.</p>
-                </div>
-                
-                <div class="process-step">
-                    <div class="process-number">4</div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">¡A Vivir la Magia!</h3>
-                    <p class="text-gray-600">Soporte continuo. Tú solo disfruta, nosotros resolvemos.</p>
-                </div>
-            </div>
-            
-            <div class="mt-12 text-center">
-                <a href="#contacto" class="btn-primary text-lg px-8 py-4 inline-block">
-                    <i class="fas fa-rocket mr-2"></i>
-                    Empezar Mi Aventura Ahora
-                </a>
-            </div>
-        </div>
-    </section>
+    <!-- Logo -->
+    <a href="#" class="flex-shrink-0">
+      <img id="nav-logo"
+           src="brand_assets/website_logoonly_transparent_background otro eslogan 2022 -.png"
+           alt="Magic Tours Planner" class="h-[72px] object-contain"
+           crossorigin="anonymous" />
+    </a>
 
-    <!-- Testimonials -->
-    <section id="testimonios" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="section-title">Lo Que Dicen Nuestros Clientes</h2>
-                <p class="section-subtitle">Experiencias reales, magia verdadera</p>
-            </div>
-            
-            <div class="max-w-4xl mx-auto mb-12">
-                <div class="bg-gray-900 rounded-2xl overflow-hidden shadow-2xl aspect-video">
-                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-900 to-purple-700">
-                        <div class="text-center text-white p-8">
-                            <i class="fas fa-play-circle text-6xl mb-4"></i>
-                            <p class="text-xl font-semibold">Video Testimonial</p>
-                            <p class="text-sm mt-2">Inserta tu video aquí (YouTube/Vimeo)</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="testimonial-card">
-                    <div class="text-yellow-400 mb-4">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-gray-700 italic mb-4">
-                        "Magic Tour Planner hizo que nuestro torneo fuera inolvidable. Todo perfectamente organizado!"
-                    </p>
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-purple-200 rounded-full flex items-center justify-center text-purple-700 font-bold mr-3">MC</div>
-                        <div>
-                            <div class="font-semibold">María Castro</div>
-                            <div class="text-sm text-gray-600">Entrenadora, FC Miami</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <div class="text-yellow-400 mb-4">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-gray-700 italic mb-4">
-                        "Primera vez en Disney con mi familia. Cero estrés, pura diversión. 100% recomendado."
-                    </p>
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-purple-200 rounded-full flex items-center justify-center text-purple-700 font-bold mr-3">JR</div>
-                        <div>
-                            <div class="font-semibold">Juan Rodríguez</div>
-                            <div class="text-sm text-gray-600">Padre, Texas</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <div class="text-yellow-400 mb-4">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-gray-700 italic mb-4">
-                        "3 años trabajando con ellos. Siempre profesionales. Nuestros padres encantados."
-                    </p>
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-purple-200 rounded-full flex items-center justify-center text-purple-700 font-bold mr-3">CL</div>
-                        <div>
-                            <div class="font-semibold">Carlos López</div>
-                            <div class="text-sm text-gray-600">Director, Academia Campeones</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- Desktop links -->
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#servicios" class="nav-link" data-es="Servicios"      data-en="Services"      >Servicios</a>
+      <a href="#nosotros"  class="nav-link" data-es="Nosotros"       data-en="About Us"      >Nosotros</a>
+      <a href="#grupos"    class="nav-link" data-es="Grupos & Eventos" data-en="Groups & Events">Grupos & Eventos</a>
+      <a href="#contacto"  class="nav-link" data-es="Contacto"       data-en="Contact"       >Contacto</a>
 
-    <!-- FAQ -->
-    <section class="py-20 bg-gray-50">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="section-title">Preguntas Frecuentes</h2>
-            </div>
-            
-            <div class="space-y-4">
-                <div class="faq-item">
-                    <button class="faq-question">
-                        <span>¿Cuánto cuesta planificar un viaje?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Servicio personalizado. Consulta inicial GRATUITA. Solo pagas si decides reservar.</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <button class="faq-question">
-                        <span>¿Trabajan solo con equipos o también familias?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>¡Ambos! Equipos deportivos completos y familias individuales.</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <button class="faq-question">
-                        <span>¿Cuánto tiempo antes debo planificar?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Recomendamos 3-6 meses. También ayudamos con viajes de último minuto.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+      <!-- Language toggle -->
+      <div class="lang-wrap">
+        <button class="lang-btn on" id="btn-es" onclick="setLang('es')">ES</button>
+        <button class="lang-btn"    id="btn-en" onclick="setLang('en')">EN</button>
+      </div>
 
-    <!-- Contact -->
-    <section id="contacto" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="section-title">¡Empieza Tu Aventura Mágica Hoy!</h2>
-            </div>
-            
-            <div class="grid lg:grid-cols-2 gap-12">
-                <div class="bg-white rounded-2xl shadow-xl p-8 border">
-                    <h3 class="text-2xl font-bold mb-6">Solicita tu Propuesta</h3>
-                    
-                    <form id="contact-form" class="space-y-6">
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Tipo de viaje *</label>
-                            <div class="grid grid-cols-2 gap-4">
-                                <label class="radio-card">
-                                    <input type="radio" name="tripType" value="equipo" required class="hidden">
-                                    <div class="radio-card-content">
-                                        <i class="fas fa-trophy text-2xl mb-2"></i>
-                                        <div class="font-semibold">Equipo</div>
-                                    </div>
-                                </label>
-                                <label class="radio-card">
-                                    <input type="radio" name="tripType" value="familia" required class="hidden">
-                                    <div class="radio-card-content">
-                                        <i class="fas fa-heart text-2xl mb-2"></i>
-                                        <div class="font-semibold">Familia</div>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="form-label">Nombre *</label>
-                                <input type="text" name="firstName" required class="form-input">
-                            </div>
-                            <div>
-                                <label class="form-label">Apellido *</label>
-                                <input type="text" name="lastName" required class="form-input">
-                            </div>
-                        </div>
-                        
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="form-label">Email *</label>
-                                <input type="email" name="email" required class="form-input">
-                            </div>
-                            <div>
-                                <label class="form-label">Teléfono *</label>
-                                <input type="tel" name="phone" required class="form-input">
-                            </div>
-                        </div>
-                        
-                        <div id="team-fields" class="hidden grid md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="form-label">Nombre del Equipo</label>
-                                <input type="text" name="teamName" class="form-input">
-                            </div>
-                            <div>
-                                <label class="form-label">Número de Jugadores</label>
-                                <input type="number" name="teamSize" class="form-input">
-                            </div>
-                        </div>
-                        
-                        <div id="family-fields" class="hidden grid md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="form-label">Adultos</label>
-                                <input type="number" name="adults" class="form-input" min="1">
-                            </div>
-                            <div>
-                                <label class="form-label">Niños</label>
-                                <input type="number" name="children" class="form-input" min="0">
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <label class="form-label">Cuéntanos sobre tu viaje ideal</label>
-                            <textarea name="message" rows="4" class="form-input"></textarea>
-                        </div>
-                        
-                        <button type="submit" class="btn-primary w-full text-lg py-4">
-                            <i class="fas fa-paper-plane mr-2"></i>
-                            Enviar Solicitud
-                        </button>
-                        
-                        <p class="text-xs text-center text-gray-500">
-                            🔒 Respuesta en menos de 24 horas
-                        </p>
-                    </form>
-                </div>
-                
-                <div class="space-y-8">
-                    <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-8">
-                        <div class="text-center mb-6">
-                            <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-calendar-alt text-2xl text-white"></i>
-                            </div>
-                            <h3 class="text-2xl font-bold mb-2">¿Prefieres Hablar?</h3>
-                            <p class="text-gray-700">Agenda consulta gratuita de 30 minutos</p>
-                        </div>
-                        
-                        <div class="bg-white rounded-xl p-6 text-center mb-6">
-                            <i class="fas fa-calendar-check text-4xl text-purple-600 mb-3"></i>
-                            <p class="font-semibold mb-2">Calendario de Consultas</p>
-                            <p class="text-sm text-gray-600">Integra Calendly aquí</p>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-2xl shadow-xl p-8 border">
-                        <h3 class="text-xl font-bold mb-6">Contacto</h3>
-                        
-                        <div class="space-y-4">
-                            <div class="flex items-start">
-                                <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mr-4">
-                                    <i class="fas fa-envelope text-purple-600"></i>
-                                </div>
-                                <div>
-                                    <div class="font-semibold">Email</div>
-                                    <a href="mailto:info@magictourplanner.com" class="text-purple-600">info@magictourplanner.com</a>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-start">
-                                <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mr-4">
-                                    <i class="fab fa-whatsapp text-purple-600"></i>
-                                </div>
-                                <div>
-                                    <div class="font-semibold">WhatsApp</div>
-                                    <a href="#" class="text-purple-600">+1 (555) 123-4567</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
-                    ✨ Magic Tour Planner
-                </div>
-                <p class="text-gray-400 mb-4">
-                    Basados en Florida | Sirviendo USA y Latinoamérica
-                </p>
-                <p class="text-sm text-gray-500">
-                    © 2026 Magic Tour Planner. Todos los derechos reservados.
-                </p>
-            </div>
-        </div>
-    </footer>
-
-    <div id="success-modal" class="modal hidden">
-        <div class="modal-content">
-            <div class="text-center">
-                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <i class="fas fa-check-circle text-4xl text-green-600"></i>
-                </div>
-                <h3 class="text-2xl font-bold mb-4">¡Solicitud Enviada!</h3>
-                <p class="text-gray-600 mb-6">Te responderemos en menos de 24 horas.</p>
-                <button onclick="closeModal()" class="btn-primary">Perfecto</button>
-            </div>
-        </div>
+      <!-- CTA -->
+      <a href="#contacto" class="btn-primary !py-[11px] !px-6 !text-sm"
+         data-es="Cotización Gratis" data-en="Free Quote">Cotización Gratis</a>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Mobile: lang + hamburger -->
+    <div class="flex items-center gap-3 md:hidden">
+      <div class="lang-wrap">
+        <button class="lang-btn on" id="btn-es-m" onclick="setLang('es')">ES</button>
+        <button class="lang-btn"    id="btn-en-m" onclick="setLang('en')">EN</button>
+      </div>
+      <button onclick="toggleMob()" id="ham-icon"><i class="fas fa-bars" id="ham-ic"></i></button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mob-menu">
+    <a href="#servicios" onclick="closeMob()" data-es="Servicios"       data-en="Services"       >Servicios</a>
+    <a href="#nosotros"  onclick="closeMob()" data-es="Nosotros"        data-en="About Us"       >Nosotros</a>
+    <a href="#grupos"    onclick="closeMob()" data-es="Grupos & Eventos" data-en="Groups & Events">Grupos & Eventos</a>
+    <a href="#contacto"  onclick="closeMob()" data-es="Contacto"        data-en="Contact"        >Contacto</a>
+    <div class="pt-3 border-t border-purple-100">
+      <a href="#contacto" onclick="closeMob()" class="btn-primary w-full justify-center !text-sm"
+         data-es="Cotización Gratis" data-en="Free Quote">Cotización Gratis</a>
+    </div>
+  </div>
+  </div>
+</nav>
+</div>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero-bg min-h-screen flex items-center justify-center px-4 pt-24" style="padding-bottom: 34vh;">
+  <div class="stars-wrap" id="stars"></div>
+
+  <!-- Glowing orbs -->
+  <div class="orb w-96 h-96 top-1/4 -left-20" style="background:#D946EF;"></div>
+  <div class="orb w-80 h-80 bottom-1/4 -right-16" style="background:#7C3AED;"></div>
+  <div class="orb w-64 h-64 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style="background:#3B82F6; opacity:.1;"></div>
+
+  <!-- Floating geometric shapes (brand-coloured) -->
+  <!-- Shape 1: large purple pill, left side -->
+  <div class="geo-shape" style="--rot:12deg; --delay:.3s; left:-8%; top:20%;">
+    <div class="geo-bob">
+      <div class="geo-pill" style="width:600px;height:140px;
+           background:linear-gradient(to right,rgba(124,58,237,.18),transparent);"></div>
+    </div>
+  </div>
+  <!-- Shape 2: medium pink pill, right side lower -->
+  <div class="geo-shape" style="--rot:-15deg; --delay:.5s; right:-2%; top:68%;">
+    <div class="geo-bob">
+      <div class="geo-pill" style="width:500px;height:120px;
+           background:linear-gradient(to right,rgba(217,70,239,.16),transparent);"></div>
+    </div>
+  </div>
+  <!-- Shape 3: small violet pill, bottom left -->
+  <div class="geo-shape" style="--rot:-8deg; --delay:.4s; left:7%; bottom:9%;">
+    <div class="geo-bob">
+      <div class="geo-pill" style="width:300px;height:80px;
+           background:linear-gradient(to right,rgba(91,33,182,.16),transparent);"></div>
+    </div>
+  </div>
+  <!-- Shape 4: small gold pill, top right -->
+  <div class="geo-shape" style="--rot:20deg; --delay:.6s; right:17%; top:11%;">
+    <div class="geo-bob">
+      <div class="geo-pill" style="width:200px;height:60px;
+           background:linear-gradient(to right,rgba(245,158,11,.16),transparent);"></div>
+    </div>
+  </div>
+  <!-- Shape 5: tiny lavender pill, top centre-left -->
+  <div class="geo-shape" style="--rot:-25deg; --delay:.7s; left:22%; top:7%;">
+    <div class="geo-bob">
+      <div class="geo-pill" style="width:150px;height:40px;
+           background:linear-gradient(to right,rgba(167,139,250,.18),transparent);"></div>
+    </div>
+  </div>
+
+  <div class="max-w-6xl mx-auto text-center relative z-10">
+
+    <!-- Headline -->
+    <h1 class="font-heading text-4xl md:text-6xl lg:text-[72px] font-bold text-white leading-[1.1] mb-6">
+      <span class="block" data-es="Tu Hada Madrina" data-en="Your Fairy Godmother">Tu Hada Madrina</span>
+      <span class="grad-pink" data-es="en Walt Disney World" data-en="at Walt Disney World">en Walt Disney World</span>
+    </h1>
+
+    <p class="text-white/70 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-10"
+       data-es="Vacaciones Disney sin estrés para familias, grupos y eventos especiales. Nosotros manejamos cada detalle — tú solo disfrutas la magia."
+       data-en="Stress-free Disney vacations for families, groups, and special events. We handle every detail — you just enjoy the magic.">
+      Vacaciones Disney sin estrés para familias, grupos y eventos especiales. Nosotros manejamos cada detalle — tú solo disfrutas la magia.
+    </p>
+
+    <!-- CTAs -->
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+      <a href="#contacto" class="btn-primary"
+         data-es="Obtén tu cotización gratis" data-en="Get your free quote">
+        Obtén tu cotización gratis
+      </a>
+      <a href="#servicios" class="btn-outline"
+         data-es="Ver nuestros servicios" data-en="Explore our services">
+        Ver nuestros servicios
+      </a>
+    </div>
+
+    <!-- Tagline -->
+    <p class="font-heading italic text-white/35 text-base tracking-wide"
+       data-es='"Magia a Tu Manera"' data-en='"Magic Your Way"'>"Magia a Tu Manera"</p>
+  </div>
+
+  <!-- Park image marquee -->
+  <div class="hero-marquee" aria-hidden="true">
+    <div class="hero-marquee-track">
+
+      <!-- ── Set 1 ── -->
+      <div class="hero-park-card">
+        <img src="brand_assets/Magic Kingdom Picture.jpg" alt="Magic Kingdom" loading="lazy" />
+        <div class="park-label">Magic Kingdom</div>
+      </div>
+      <div class="hero-park-card">
+        <img src="brand_assets/animal kingdom picture.jpg" alt="Animal Kingdom" loading="lazy" />
+        <div class="park-label">Animal Kingdom</div>
+      </div>
+      <div class="hero-park-card">
+        <img src="brand_assets/hollywood studios picture.jpg" alt="Hollywood Studios" loading="lazy" />
+        <div class="park-label">Hollywood Studios</div>
+      </div>
+      <div class="hero-park-card">
+        <img src="brand_assets/epcot picture.jpg" alt="EPCOT" loading="lazy" />
+        <div class="park-label">EPCOT</div>
+      </div>
+      <div class="hero-park-card">
+        <img src="brand_assets/island of adventure.jpg" alt="Islands of Adventure" loading="lazy" />
+        <div class="park-label">Islands of Adventure</div>
+      </div>
+      <div class="hero-park-card">
+        <img src="brand_assets/epic universe.jpg" alt="Epic Universe" loading="lazy" />
+        <div class="park-label">Epic Universe</div>
+      </div>
+      <div class="hero-park-card">
+        <img src="brand_assets/universal studios.jpg" alt="Universal Studios" loading="lazy" />
+        <div class="park-label">Universal Studios</div>
+      </div>
+      <div class="hero-park-card">
+        <img src="brand_assets/animal kingdom picture.jpg" alt="Animal Kingdom" loading="lazy" />
+        <div class="park-label">Animal Kingdom</div>
+      </div>
+      <div class="hero-park-card">
+        <img src="brand_assets/epcot picture.jpg" alt="EPCOT" loading="lazy" />
+        <div class="park-label">EPCOT</div>
+      </div>
+      <div class="hero-park-card">
+        <img src="brand_assets/island of adventure.jpg" alt="Islands of Adventure" loading="lazy" />
+        <div class="park-label">Islands of Adventure</div>
+      </div>
+
+      <!-- ── Set 2 (duplicate for seamless loop) ── -->
+      <div class="hero-park-card">
+        <img src="brand_assets/Magic Kingdom Picture.jpg" alt="Magic Kingdom" loading="lazy" />
+        <div class="park-label">Magic Kingdom</div>
+      </div>
+      <div class="hero-park-card">
+        <img src="brand_assets/animal kingdom picture.jpg" alt="Animal Kingdom" loading="lazy" />
+        <div class="park-label">Animal Kingdom</div>
+      </div>
+      <div class="hero-park-card">
+        <img src="brand_assets/hollywood studios picture.jpg" alt="Hollywood Studios" loading="lazy" />
+        <div class="park-label">Hollywood Studios</div>
+      </div>
+      <div class="hero-park-card">
+        <img src="brand_assets/epcot picture.jpg" alt="EPCOT" loading="lazy" />
+        <div class="park-label">EPCOT</div>
+      </div>
+      <div class="hero-park-card">
+        <img src="brand_assets/island of adventure.jpg" alt="Islands of Adventure" loading="lazy" />
+        <div class="park-label">Islands of Adventure</div>
+      </div>
+      <div class="hero-park-card">
+        <img src="brand_assets/epic universe.jpg" alt="Epic Universe" loading="lazy" />
+        <div class="park-label">Epic Universe</div>
+      </div>
+      <div class="hero-park-card">
+        <img src="brand_assets/universal studios.jpg" alt="Universal Studios" loading="lazy" />
+        <div class="park-label">Universal Studios</div>
+      </div>
+      <div class="hero-park-card">
+        <img src="brand_assets/animal kingdom picture.jpg" alt="Animal Kingdom" loading="lazy" />
+        <div class="park-label">Animal Kingdom</div>
+      </div>
+      <div class="hero-park-card">
+        <img src="brand_assets/epcot picture.jpg" alt="EPCOT" loading="lazy" />
+        <div class="park-label">EPCOT</div>
+      </div>
+      <div class="hero-park-card">
+        <img src="brand_assets/island of adventure.jpg" alt="Islands of Adventure" loading="lazy" />
+        <div class="park-label">Islands of Adventure</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ STATS BAR ══════════ -->
+<section id="stats-section" class="py-10 px-4 shadow-[0_4px_30px_rgba(0,0,0,.3)] relative" style="background: rgba(10, 5, 25, 0.7); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); z-index: 10;">
+  <div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+    <div>
+      <div class="text-3xl font-bold" style="color:#D8B4FE;">
+        <span class="counter" data-target="500" data-suffix="+">0</span>
+      </div>
+      <div class="text-sm text-gray-400 mt-1" data-es="Familias Felices" data-en="Happy Families">Familias Felices</div>
+    </div>
+    <div>
+      <div class="text-3xl font-bold" style="color:#D8B4FE;">
+        <span class="counter" data-target="10" data-suffix="+">0</span>
+      </div>
+      <div class="text-sm text-gray-400 mt-1" data-es="Años de Experiencia" data-en="Years of Experience">Años de Experiencia</div>
+    </div>
+    <div>
+      <div class="text-3xl font-bold" style="color:#D8B4FE;">
+        <i class="fas fa-star" style="color:#D8B4FE; font-size: 20px;"></i> <span class="counter" data-target="5" data-suffix=".0">0</span>
+      </div>
+      <div class="text-sm text-gray-400 mt-1" data-es="Calificación Promedio" data-en="Average Rating">Calificación Promedio</div>
+    </div>
+    <div>
+      <div class="text-3xl font-bold" style="color:#D8B4FE;">✓ Auth.</div>
+      <div class="text-sm text-gray-400 mt-1" data-es="Planificador Autorizado Disney" data-en="Authorized Disney Planner">Planificador Autorizado Disney</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ SERVICES ══════════ -->
+<section id="servicios" class="py-24 px-4 relative">
+  <!-- Dynamic Cinematic Background -->
+  <div class="absolute inset-0 pointer-events-none -z-10" style="background: linear-gradient(170deg, #070515 0%, #170B3B 50%, #070515 100%);">
+    <div class="orb w-[500px] h-[500px] top-0 right-[-100px] opacity-20 filter blur-[100px]" style="background: #7C3AED;"></div>
+    <div class="orb w-[400px] h-[400px] bottom-0 left-[-50px] opacity-15 filter blur-[100px]" style="background: #3B82F6;"></div>
+  </div>
+
+  <div class="max-w-7xl mx-auto">
+
+    <div class="text-center mb-20 reveal">
+      <span class="label" style="color: #D8B4FE;" data-es="Lo Que Ofrecemos" data-en="What We Offer">Lo Que Ofrecemos</span>
+      <h2 class="font-heading text-4xl md:text-5xl font-bold text-white mb-4"
+          data-es="Nuestros Servicios" data-en="Our Services">Nuestros Servicios</h2>
+      <p class="text-gray-500 max-w-xl mx-auto"
+         data-es="Todo lo que necesitas para vivir la magia Disney sin estrés."
+         data-en="Everything you need to experience the Disney magic stress-free.">
+        Todo lo que necesitas para vivir la magia Disney sin estrés.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7 reveal">
+
+      <!-- Magic VIP Tours -->
+      <div class="svc-card glass-panel glass-panel-hover" style="border-radius: 20px; padding: 28px 24px; transition: transform .3s, box-shadow .3s, border-color .3s; cursor: default;">
+        <div class="svc-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="svc-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#7C3AED"/>
+                <stop offset="100%" stop-color="#D946EF"/>
+              </linearGradient>
+            </defs>
+            <path fill="url(#svc-grad-1)" d="M2 20h20v-4L19 10l-3.5 4.5L12 4 8.5 14.5 5 10 2 16v4z"/>
+            <circle cx="5" cy="10" r="1.3" fill="white" opacity=".55"/>
+            <circle cx="12" cy="4" r="1.3" fill="white" opacity=".55"/>
+            <circle cx="19" cy="10" r="1.3" fill="white" opacity=".55"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3"
+            data-es="Magic VIP Tours" data-en="Magic VIP Tours">Magic VIP Tours</h3>
+        <p class="text-gray-500 text-sm leading-relaxed mb-5"
+           data-es="Guías expertos, salta filas y vive Disney como nunca antes. La experiencia premium para tu familia."
+           data-en="Expert guides, skip lines and experience Disney like never before. The premium experience for your family.">
+          Guías expertos, salta filas y vive Disney como nunca antes. La experiencia premium para tu familia.
+        </p>
+        <a href="#contacto" class="text-sm font-bold" style="color:#7C3AED;"
+           data-es="Cotizar →" data-en="Get a quote →">Cotizar →</a>
+      </div>
+
+      <!-- Reservas de Hotel -->
+      <div class="svc-card glass-panel glass-panel-hover" style="border-radius: 20px; padding: 28px 24px; transition: transform .3s, box-shadow .3s, border-color .3s; cursor: default;">
+        <div class="svc-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="svc-grad-2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#7C3AED"/>
+                <stop offset="100%" stop-color="#D946EF"/>
+              </linearGradient>
+            </defs>
+            <rect x="6" y="2" width="12" height="20" rx="1.5" fill="url(#svc-grad-2)"/>
+            <rect x="8.5" y="5.5" width="2.5" height="2.5" rx=".5" fill="white" opacity=".45"/>
+            <rect x="13" y="5.5" width="2.5" height="2.5" rx=".5" fill="white" opacity=".45"/>
+            <rect x="8.5" y="10.5" width="2.5" height="2.5" rx=".5" fill="white" opacity=".45"/>
+            <rect x="13" y="10.5" width="2.5" height="2.5" rx=".5" fill="white" opacity=".45"/>
+            <rect x="10.25" y="16.5" width="3.5" height="5.5" fill="white" opacity=".2"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3"
+            data-es="Reservas de Hotel" data-en="Hotel Bookings">Reservas de Hotel</h3>
+        <p class="text-gray-500 text-sm leading-relaxed mb-5"
+           data-es="Los mejores hoteles Disney Resort al mejor precio. Acceso a tarifas exclusivas y habitaciones con temática."
+           data-en="The best Disney Resort hotels at the best price. Access to exclusive rates and themed rooms.">
+          Los mejores hoteles Disney Resort al mejor precio. Acceso a tarifas exclusivas y habitaciones con temática.
+        </p>
+        <a href="#contacto" class="text-sm font-bold" style="color:#7C3AED;"
+           data-es="Cotizar →" data-en="Get a quote →">Cotizar →</a>
+      </div>
+
+      <!-- Paquetes Vacacionales -->
+      <div class="svc-card glass-panel glass-panel-hover" style="border-radius: 20px; padding: 28px 24px; transition: transform .3s, box-shadow .3s, border-color .3s; cursor: default;">
+        <div class="svc-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="svc-grad-3" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#7C3AED"/>
+                <stop offset="100%" stop-color="#D946EF"/>
+              </linearGradient>
+            </defs>
+            <rect x="9" y="4" width="6" height="1.5" rx=".75" fill="url(#svc-grad-3)"/>
+            <rect x="9" y="4" width="1.5" height="4.5" rx=".75" fill="url(#svc-grad-3)"/>
+            <rect x="13.5" y="4" width="1.5" height="4.5" rx=".75" fill="url(#svc-grad-3)"/>
+            <rect x="2" y="8" width="20" height="13" rx="2" fill="url(#svc-grad-3)"/>
+            <rect x="11" y="8" width="2" height="13" fill="white" opacity=".15"/>
+            <rect x="10.5" y="12.5" width="3" height="3" rx="1" fill="white" opacity=".5"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3"
+            data-es="Paquetes Vacacionales" data-en="Vacation Packages">Paquetes Vacacionales</h3>
+        <p class="text-gray-500 text-sm leading-relaxed mb-5"
+           data-es="Hotel, boletos, restaurantes y más en un solo paquete sin estrés. Todo incluido y sin sorpresas."
+           data-en="Hotel, tickets, restaurants and more in one stress-free package. All-inclusive with no surprises.">
+          Hotel, boletos, restaurantes y más en un solo paquete sin estrés. Todo incluido y sin sorpresas.
+        </p>
+        <a href="#contacto" class="text-sm font-bold" style="color:#7C3AED;"
+           data-es="Cotizar →" data-en="Get a quote →">Cotizar →</a>
+      </div>
+
+      <!-- Boletos de Parques -->
+      <div class="svc-card glass-panel glass-panel-hover" style="border-radius: 20px; padding: 28px 24px; transition: transform .3s, box-shadow .3s, border-color .3s; cursor: default;">
+        <div class="svc-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="svc-grad-4" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#7C3AED"/>
+                <stop offset="100%" stop-color="#D946EF"/>
+              </linearGradient>
+            </defs>
+            <path fill="url(#svc-grad-4)" d="M22 10V6a1 1 0 00-1-1H3a1 1 0 00-1 1v4c1.1 0 2 .9 2 2s-.9 2-2 2v4a1 1 0 001 1h18a1 1 0 001-1v-4c-1.1 0-2-.9-2-2s.9-2 2-2z"/>
+            <circle cx="8.25" cy="12" r=".65" fill="white" opacity=".45"/>
+            <circle cx="10.75" cy="12" r=".65" fill="white" opacity=".45"/>
+            <circle cx="13.25" cy="12" r=".65" fill="white" opacity=".45"/>
+            <circle cx="15.75" cy="12" r=".65" fill="white" opacity=".45"/>
+            <rect x="4.5" y="8" width="5" height="1.2" rx=".6" fill="white" opacity=".4"/>
+            <rect x="4.5" y="10" width="3.5" height="1.2" rx=".6" fill="white" opacity=".28"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3"
+            data-es="Boletos de Parques" data-en="Theme Park Tickets">Boletos de Parques</h3>
+        <p class="text-gray-500 text-sm leading-relaxed mb-5"
+           data-es="Todos los parques Disney. Te asesoramos en la mejor opción según tus días, presupuesto y preferencias."
+           data-en="All Disney parks. We guide you to the best ticket option based on your days, budget, and preferences.">
+          Todos los parques Disney. Te asesoramos en la mejor opción según tus días, presupuesto y preferencias.
+        </p>
+        <a href="#contacto" class="text-sm font-bold" style="color:#7C3AED;"
+           data-es="Cotizar →" data-en="Get a quote →">Cotizar →</a>
+      </div>
+
+      <!-- Ofertas Especiales -->
+      <div class="svc-card glass-panel glass-panel-hover" style="border-radius: 20px; padding: 28px 24px; transition: transform .3s, box-shadow .3s, border-color .3s; cursor: default;">
+        <div class="svc-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="svc-grad-5" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#7C3AED"/>
+                <stop offset="100%" stop-color="#D946EF"/>
+              </linearGradient>
+            </defs>
+            <path fill="url(#svc-grad-5)" d="M21.41 11.58l-9-9A2 2 0 0011 2H4a2 2 0 00-2 2v7a2 2 0 00.59 1.42l9 9a2 2 0 002.82 0l7-7a2 2 0 000-2.84z"/>
+            <circle cx="6.5" cy="6.5" r="1.4" fill="white" opacity=".52"/>
+            <path fill="white" opacity=".38" d="M14 13.5l.9 2.7 2.7.9-2.7.9-.9 2.7-.9-2.7-2.7-.9 2.7-.9z"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3"
+            data-es="Ofertas Especiales" data-en="Special Offers">Ofertas Especiales</h3>
+        <p class="text-gray-500 text-sm leading-relaxed mb-5"
+           data-es="Promociones exclusivas y descuentos de temporada Disney. Te avisamos cuando salen las mejores ofertas."
+           data-en="Exclusive promotions and Disney seasonal discounts. We alert you when the best deals drop.">
+          Promociones exclusivas y descuentos de temporada Disney. Te avisamos cuando salen las mejores ofertas.
+        </p>
+        <a href="#contacto" class="text-sm font-bold" style="color:#7C3AED;"
+           data-es="Cotizar →" data-en="Get a quote →">Cotizar →</a>
+      </div>
+
+      <!-- Eventos de Temporada -->
+      <div class="svc-card glass-panel glass-panel-hover" style="border-radius: 20px; padding: 28px 24px; transition: transform .3s, box-shadow .3s, border-color .3s; cursor: default;">
+        <div class="svc-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="svc-grad-6" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#7C3AED"/>
+                <stop offset="100%" stop-color="#D946EF"/>
+              </linearGradient>
+            </defs>
+            <path fill="url(#svc-grad-6)" d="M12 2.5L13.5 10 21 11.5 13.5 13 12 20.5 10.5 13 3 11.5 10.5 10z"/>
+            <path fill="url(#svc-grad-6)" opacity=".72" d="M19 3.5L19.75 6.25 22.5 7 19.75 7.75 19 10.5 18.25 7.75 15.5 7 18.25 6.25z"/>
+            <path fill="url(#svc-grad-6)" opacity=".5" d="M5 14.5L5.65 16.75 7.9 17.4 5.65 18.05 5 20.3 4.35 18.05 2.1 17.4 4.35 16.75z"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3"
+            data-es="Eventos de Temporada" data-en="Seasonal Events">Eventos de Temporada</h3>
+        <p class="text-gray-500 text-sm leading-relaxed mb-5"
+           data-es="Halloween, Navidad, EPCOT Festivals y más eventos mágicos. Planificamos tu visita en la época perfecta."
+           data-en="Halloween, Christmas, EPCOT Festivals and more magical events. We plan your visit at the perfect time.">
+          Halloween, Navidad, EPCOT Festivals y más eventos mágicos. Planificamos tu visita en la época perfecta.
+        </p>
+        <a href="#contacto" class="text-sm font-bold" style="color:#7C3AED;"
+           data-es="Cotizar →" data-en="Get a quote →">Cotizar →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ WHY CHOOSE US ══════════ -->
+<section id="nosotros" class="py-24 px-4 text-white" style="background:linear-gradient(150deg,#3B0764 0%,#5B21B6 55%,#7C3AED 100%);">
+  <div class="max-w-7xl mx-auto">
+
+    <div class="text-center mb-16 reveal">
+      <span class="label !text-purple-200" data-es="¿Por Qué Nosotros?" data-en="Why Choose Us?">¿Por Qué Nosotros?</span>
+      <h2 class="font-heading text-4xl md:text-5xl font-bold mb-4"
+          data-es="La Diferencia Magic Tours" data-en="The Magic Tours Difference">La Diferencia Magic Tours</h2>
+      <p class="text-white/65 max-w-xl mx-auto"
+         data-es="Más que una agencia de viajes — somos tu hada madrina Disney."
+         data-en="More than a travel agency — we are your Disney fairy godmother.">
+        Más que una agencia de viajes — somos tu hada madrina Disney.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+
+      <div class="usp-card reveal glass-panel glass-panel-hover" style="border-radius: 18px; padding: 28px 20px; text-align: center; transition: background .3s, border-color .3s;">
+        <div class="text-4xl mb-4 text-purple-400"><i class="fas fa-trophy"></i></div>
+        <h3 class="font-bold text-lg mb-2" data-es="Autorizado por Disney" data-en="Authorized by Disney">Autorizado por Disney</h3>
+        <p class="text-white/55 text-sm" data-es="Planificador oficial de vacaciones Disney." data-en="Official Disney vacation planner.">Planificador oficial de vacaciones Disney.</p>
+      </div>
+
+      <div class="usp-card reveal glass-panel glass-panel-hover" style="transition-delay:.08s; border-radius: 18px; padding: 28px 20px; text-align: center; transition: background .3s, border-color .3s;">
+        <div class="text-4xl mb-4 text-blue-400"><i class="fas fa-globe-americas"></i></div>
+        <h3 class="font-bold text-lg mb-2" data-es="100% Bilingüe" data-en="100% Bilingual">100% Bilingüe</h3>
+        <p class="text-white/55 text-sm" data-es="Servicio completo en español e inglés." data-en="Full service in Spanish and English.">Servicio completo en español e inglés.</p>
+      </div>
+
+      <div class="usp-card reveal glass-panel glass-panel-hover" style="transition-delay:.16s; border-radius: 18px; padding: 28px 20px; text-align: center; transition: background .3s, border-color .3s;">
+        <div class="text-4xl mb-4 text-yellow-400"><i class="fas fa-crown"></i></div>
+        <h3 class="font-bold text-lg mb-2" data-es="Guías VIP Expertos" data-en="Expert VIP Guides">Guías VIP Expertos</h3>
+        <p class="text-white/55 text-sm" data-es="Conocemos Disney como la palma de la mano." data-en="We know Disney like the back of our hand.">Conocemos Disney como la palma de la mano.</p>
+      </div>
+
+      <div class="usp-card reveal glass-panel glass-panel-hover" style="transition-delay:.24s; border-radius: 18px; padding: 28px 20px; text-align: center; transition: background .3s, border-color .3s;">
+        <div class="text-4xl mb-4 text-green-400"><i class="fas fa-spa"></i></div>
+        <h3 class="font-bold text-lg mb-2" data-es="Zero Estrés" data-en="Zero Stress">Zero Estrés</h3>
+        <p class="text-white/55 text-sm" data-es="Nosotros manejamos todo — tú solo disfruta." data-en="We handle everything — you just enjoy.">Nosotros manejamos todo — tú solo disfruta.</p>
+      </div>
+
+      <div class="usp-card reveal glass-panel glass-panel-hover" style="transition-delay:.32s; border-radius: 18px; padding: 28px 20px; text-align: center; transition: background .3s, border-color .3s;">
+        <div class="text-4xl mb-4 text-pink-400"><i class="fas fa-users"></i></div>
+        <h3 class="font-bold text-lg mb-2" data-es="Esp. en Grupos" data-en="Group Specialists">Esp. en Grupos</h3>
+        <p class="text-white/55 text-sm" data-es="De 4 a 100+ personas. Coordinamos todo." data-en="From 4 to 100+ people. We coordinate everything.">De 4 a 100+ personas. Coordinamos todo.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ WHO WE SERVE ══════════ -->
+<section class="py-24 px-4 relative">
+  <!-- Dynamic Cinematic Background -->
+  <div class="absolute inset-0 pointer-events-none -z-10" style="background: linear-gradient(135deg, #070515 0%, #0F0826 100%);">
+    <div class="orb w-[600px] h-[600px] top-[10%] left-[20%] opacity-10 filter blur-[120px]" style="background: #D946EF;"></div>
+  </div>
+
+  <div class="max-w-7xl mx-auto">
+
+    <div class="text-center mb-16 reveal">
+      <span class="label" data-es="Para Quién Somos" data-en="Who We Serve">Para Quién Somos</span>
+      <h2 class="font-heading text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+          data-es="Creamos Magia Para..." data-en="We Create Magic For...">Creamos Magia Para...</h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Families -->
+      <div class="aud-card reveal glass-panel glass-panel-hover" style="border-radius: 20px; padding: 28px 24px; position: relative; transition: transform .3s, box-shadow .3s, border-color .3s; border-color: rgba(167, 139, 250, 0.2);">
+        <span class="badge" style="background:#7C3AED;" data-es="Más Popular" data-en="Most Popular">Más Popular</span>
+        <div class="text-5xl mb-4 text-purple-400"><i class="fas fa-child"></i></div>
+        <h3 class="text-xl font-bold text-white mb-2" data-es="Familias Latinas" data-en="Latino Families">Familias Latinas</h3>
+        <p class="text-gray-400 text-sm leading-relaxed"
+           data-es="Grupos de 4 a 12+ personas. Creamos el itinerario perfecto para que toda la familia viva su sueño Disney."
+           data-en="Groups of 4 to 12+ people. We create the perfect itinerary for the whole family to live their Disney dream.">
+          Grupos de 4 a 12+ personas. Creamos el itinerario perfecto para que toda la familia viva su sueño Disney.
+        </p>
+      </div>
+
+      <!-- Quinceañeras -->
+      <div class="aud-card reveal glass-panel glass-panel-hover" style="transition-delay:.08s; border-radius: 20px; padding: 28px 24px; position: relative; transition: transform .3s, box-shadow .3s, border-color .3s; border-color: rgba(217, 70, 239, 0.2);">
+        <span class="badge" style="background:#D946EF;" data-es="¡Nuevo!" data-en="New!">¡Nuevo!</span>
+        <div class="text-5xl mb-4 text-pink-400"><i class="fas fa-crown"></i></div>
+        <h3 class="text-xl font-bold text-white mb-2" data-es="Quinceañeras" data-en="Quinceañeras">Quinceañeras</h3>
+        <p class="text-gray-400 text-sm leading-relaxed"
+           data-es="De 15 a 60+ invitados. Convierte los 15 años más especiales en una celebración mágica en el reino de los sueños."
+           data-en="From 15 to 60+ guests. Turn the most special 15th birthday into a magical celebration in the kingdom of dreams.">
+          De 15 a 60+ invitados. Convierte los 15 años más especiales en una celebración mágica en el reino de los sueños.
+        </p>
+      </div>
+
+      <!-- Groups & Events -->
+      <div class="aud-card reveal glass-panel glass-panel-hover" style="transition-delay:.16s; border-radius: 20px; padding: 28px 24px; position: relative; transition: transform .3s, box-shadow .3s, border-color .3s; border-color: rgba(245, 158, 11, 0.2);">
+        <div class="text-5xl mb-4 text-yellow-400"><i class="fas fa-glass-cheers"></i></div>
+        <h3 class="text-xl font-bold text-white mb-2" data-es="Grupos & Eventos" data-en="Groups & Events">Grupos & Eventos</h3>
+        <p class="text-gray-400 text-sm leading-relaxed"
+           data-es="Cumpleaños, aniversarios, reuniones de 8 a 80+ personas. Cada momento se convierte en un recuerdo inolvidable."
+           data-en="Birthdays, anniversaries, reunions from 8 to 80+ people. Every moment becomes an unforgettable memory.">
+          Cumpleaños, aniversarios, reuniones de 8 a 80+ personas. Cada momento se convierte en un recuerdo inolvidable.
+        </p>
+      </div>
+
+      <!-- Sports Tournaments -->
+      <div class="aud-card reveal glass-panel glass-panel-hover" style="transition-delay:.08s; border-radius: 20px; padding: 28px 24px; position: relative; transition: transform .3s, box-shadow .3s, border-color .3s; border-color: rgba(16, 185, 129, 0.2);">
+        <div class="text-5xl mb-4 text-green-400"><i class="fas fa-futbol"></i></div>
+        <h3 class="text-xl font-bold text-white mb-2" data-es="Torneos Deportivos" data-en="Sports Tournaments">Torneos Deportivos</h3>
+        <p class="text-gray-400 text-sm leading-relaxed"
+           data-es="Familias de torneos Disney (10–50+ familias). Coordinamos alojamiento, boletos y logística completa."
+           data-en="Disney tournament families (10–50+ families). We coordinate lodging, tickets, and complete logistics.">
+          Familias de torneos Disney (10–50+ familias). Coordinamos alojamiento, boletos y logística completa.
+        </p>
+      </div>
+
+      <!-- Weddings -->
+      <div class="aud-card reveal glass-panel glass-panel-hover" style="transition-delay:.16s; border-radius: 20px; padding: 28px 24px; position: relative; transition: transform .3s, box-shadow .3s, border-color .3s; border-color: rgba(59, 130, 246, 0.2);">
+        <div class="text-5xl mb-4 text-blue-400"><i class="fas fa-ring"></i></div>
+        <h3 class="text-xl font-bold text-white mb-2" data-es="Bodas & Lunas de Miel" data-en="Weddings & Honeymoons">Bodas & Lunas de Miel</h3>
+        <p class="text-gray-400 text-sm leading-relaxed"
+           data-es="Bodas de destino de 20 a 100+ invitados. Que tu día más especial ocurra en el lugar más mágico del mundo."
+           data-en="Destination weddings from 20 to 100+ guests. Let your most special day happen in the most magical place on Earth.">
+          Bodas de destino de 20 a 100+ invitados. Que tu día más especial ocurra en el lugar más mágico del mundo.
+        </p>
+      </div>
+
+      <!-- Family Reunions -->
+      <div class="aud-card reveal glass-panel glass-panel-hover" style="transition-delay:.24s; border-radius: 20px; padding: 28px 24px; position: relative; transition: transform .3s, box-shadow .3s, border-color .3s; border-color: rgba(239, 68, 68, 0.2);">
+        <div class="text-5xl mb-4 text-red-400"><i class="fas fa-home"></i></div>
+        <h3 class="text-xl font-bold text-white mb-2" data-es="Reuniones Familiares" data-en="Family Reunions">Reuniones Familiares</h3>
+        <p class="text-gray-400 text-sm leading-relaxed"
+           data-es="Reúne a toda la familia en Disney (20–80+ personas). Experiencias que conectan generaciones y crean memorias para toda la vida."
+           data-en="Gather the whole family at Disney (20–80+ people). Experiences that connect generations and create lifelong memories.">
+          Reúne a toda la familia en Disney (20–80+ personas). Experiencias que conectan generaciones y crean memorias para toda la vida.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ HOW IT WORKS ══════════ -->
+<section class="py-24 px-4 relative">
+  <!-- Dynamic Cinematic Background -->
+  <div class="absolute inset-0 pointer-events-none -z-10" style="background: linear-gradient(to bottom, #0F0826 0%, #070515 100%);"></div>
+
+  <div class="max-w-5xl mx-auto">
+
+    <div class="text-center mb-16 reveal">
+      <span class="label" data-es="El Proceso" data-en="The Process">El Proceso</span>
+      <h2 class="font-heading text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+          data-es="Así de Fácil" data-en="It's That Easy">Así de Fácil</h2>
+      <p class="text-gray-500 max-w-lg mx-auto"
+         data-es="En 3 simples pasos, transformamos tu sueño Disney en realidad."
+         data-en="In 3 simple steps, we turn your Disney dream into reality.">
+        En 3 simples pasos, transformamos tu sueño Disney en realidad.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+      <div class="text-center reveal">
+        <div class="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-bold text-white mx-auto mb-6 shadow-xl"
+             style="background:linear-gradient(135deg,#7C3AED,#5B21B6); box-shadow:0 8px 28px rgba(124,58,237,.4);">1</div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3" data-es="Cotiza Gratis" data-en="Get a Free Quote">Cotiza Gratis</h3>
+        <p class="text-gray-500 text-sm leading-relaxed"
+           data-es="Cuéntanos sobre tu viaje soñado. Preparamos una cotización personalizada sin costo alguno."
+           data-en="Tell us about your dream trip. We prepare a personalized quote at no cost.">
+          Cuéntanos sobre tu viaje soñado. Preparamos una cotización personalizada sin costo alguno.
+        </p>
+      </div>
+
+      <div class="text-center reveal" style="transition-delay:.15s">
+        <div class="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-bold text-white mx-auto mb-6 shadow-xl"
+             style="background:linear-gradient(135deg,#5B21B6,#7C3AED); box-shadow:0 8px 28px rgba(124,58,237,.4);">2</div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3" data-es="Planificamos Todo" data-en="We Plan Everything">Planificamos Todo</h3>
+        <p class="text-gray-500 text-sm leading-relaxed"
+           data-es="Hotel, boletos, restaurantes, guías VIP y reservas especiales. Nos encargamos de cada detalle por ti."
+           data-en="Hotel, tickets, restaurants, VIP guides, and special reservations. We take care of every detail for you.">
+          Hotel, boletos, restaurantes, guías VIP y reservas especiales. Nos encargamos de cada detalle por ti.
+        </p>
+      </div>
+
+      <div class="text-center reveal" style="transition-delay:.30s">
+        <div class="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-bold text-white mx-auto mb-6 shadow-xl"
+             style="background:linear-gradient(135deg,#7C3AED,#D946EF); box-shadow:0 8px 28px rgba(217,70,239,.4);">3</div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3" data-es="¡Disfruta la Magia!" data-en="Enjoy the Magic!">¡Disfruta la Magia!</h3>
+        <p class="text-gray-500 text-sm leading-relaxed"
+           data-es="Tú y tu familia solo se preocupan por disfrutar. Estamos disponibles en todo momento durante tu viaje."
+           data-en="You and your family only worry about having fun. We're available at every moment during your trip.">
+          Tú y tu familia solo se preocupan por disfrutar. Estamos disponibles en todo momento durante tu viaje.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ TESTIMONIALS ══════════ -->
+<section class="py-24 px-4 relative">
+  <!-- Dynamic Cinematic Background -->
+  <div class="absolute inset-0 pointer-events-none -z-10" style="background: linear-gradient(160deg, #070515 0%, #170B3B 100%);">
+     <div class="orb w-[400px] h-[400px] bottom-[10%] right-[10%] opacity-20 filter blur-[90px]" style="background: #F59E0B;"></div>
+  </div>
+
+  <div class="max-w-7xl mx-auto">
+
+    <div class="text-center mb-16 reveal">
+      <span class="label" data-es="Testimonios" data-en="Testimonials">Testimonios</span>
+      <h2 class="font-heading text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+          data-es="Lo Que Dicen Nuestras Familias" data-en="What Our Families Say">Lo Que Dicen Nuestras Familias</h2>
+      <p class="text-gray-500 max-w-lg mx-auto"
+         data-es="Más de 500 familias han vivido la magia Disney con nosotros."
+         data-en="More than 500 families have experienced the Disney magic with us.">
+        Más de 500 familias han vivido la magia Disney con nosotros.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-7">
+
+      <div class="test-card reveal glass-panel glass-panel-hover" style="border-radius: 20px; padding: 28px 24px; transition: box-shadow .3s; border-color: transparent;">
+        <div class="flex gap-1 mb-4" style="color:#F59E0B;">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <p class="text-gray-600 text-sm leading-relaxed italic mb-6"
+           data-es='"Fue la mejor vacación de nuestra vida. Magic Tours Planner se encargó de TODO — hotel, boletos, restaurantes, guías VIP. Llegamos a Disney y solo nos enfocamos en disfrutar. ¡Fue mágico de verdad!"'
+           data-en='"It was the best vacation of our lives. Magic Tours Planner took care of EVERYTHING — hotel, tickets, restaurants, VIP guides. We arrived at Disney and just focused on enjoying. It was truly magical!"'>
+          "Fue la mejor vacación de nuestra vida. Magic Tours Planner se encargó de TODO — hotel, boletos, restaurantes, guías VIP. Llegamos a Disney y solo nos enfocamos en disfrutar. ¡Fue mágico de verdad!"
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold text-white"
+               style="background:linear-gradient(135deg,#7C3AED,#A78BFA);">MR</div>
+          <div>
+            <div class="font-semibold text-gray-900 text-sm">María Rodríguez</div>
+            <div class="text-gray-400 text-xs" data-es="Mamá de 3 · Miami, FL" data-en="Mom of 3 · Miami, FL">Mamá de 3 · Miami, FL</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-card reveal glass-panel glass-panel-hover" style="transition-delay:.12s; border-radius: 20px; padding: 28px 24px; transition: box-shadow .3s; border-color: transparent;">
+        <div class="flex gap-1 mb-4" style="color:#F59E0B;">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <p class="text-gray-600 text-sm leading-relaxed italic mb-6"
+           data-es='"Organizamos los 15 de mi hija en Disney con 35 personas y todo salió PERFECTO. El guía VIP fue increíble. Mi hija dice que fue el mejor día de su vida. ¡1000% recomendados!"'
+           data-en='"We organized my daughter\'s quinceañera at Disney with 35 people and everything went PERFECTLY. The VIP guide was incredible. My daughter says it was the best day of her life. 1000% recommended!"'>
+          "Organizamos los 15 de mi hija en Disney con 35 personas y todo salió PERFECTO. El guía VIP fue increíble. Mi hija dice que fue el mejor día de su vida. ¡1000% recomendados!"
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold text-white"
+               style="background:linear-gradient(135deg,#D946EF,#EC4899);">CG</div>
+          <div>
+            <div class="font-semibold text-gray-900 text-sm">Carmen García</div>
+            <div class="text-gray-400 text-xs" data-es="Quinceañera · Houston, TX" data-en="Quinceañera · Houston, TX">Quinceañera · Houston, TX</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-card reveal glass-panel glass-panel-hover" style="transition-delay:.24s; border-radius: 20px; padding: 28px 24px; transition: box-shadow .3s; border-color: transparent;">
+        <div class="flex gap-1 mb-4" style="color:#F59E0B;">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <p class="text-gray-600 text-sm leading-relaxed italic mb-6"
+           data-es='"Llevé a mi equipo de fútbol (45 familias) a un torneo en Disney. La coordinación fue impecable — hoteles para todos, boletos y un itinerario personalizado. Sin ellos, esto hubiera sido imposible."'
+           data-en='"I took my soccer team (45 families) to a tournament at Disney. The coordination was impeccable — hotels for everyone, tickets, and a personalized itinerary. Without them, this would have been impossible."'>
+          "Llevé a mi equipo de fútbol (45 familias) a un torneo en Disney. La coordinación fue impecable — hoteles para todos, boletos y un itinerario personalizado. Sin ellos, esto hubiera sido imposible."
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold text-white"
+               style="background:linear-gradient(135deg,#10B981,#34D399);">JL</div>
+          <div>
+            <div class="font-semibold text-gray-900 text-sm">Jorge López</div>
+            <div class="text-gray-400 text-xs" data-es="Director Deportivo · Orlando, FL" data-en="Sports Director · Orlando, FL">Director Deportivo · Orlando, FL</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ GROUPS CTA ══════════ -->
+<section id="grupos" class="py-24 px-4 relative overflow-hidden"
+         style="background:linear-gradient(150deg,#0D0520 0%,#2D0B6B 55%,#1A1050 100%);">
+  <!-- bg sparkles -->
+  <div class="orb w-80 h-80 top-0 right-0" style="background:#D946EF;opacity:.12;"></div>
+  <div class="orb w-60 h-60 bottom-0 left-0" style="background:#7C3AED;opacity:.12;"></div>
+
+  <div class="max-w-4xl mx-auto text-center relative z-10 reveal">
+    <div class="text-5xl mb-5 text-purple-300"><i class="fas fa-gem"></i></div>
+    <span class="label !text-purple-300" data-es="Especialistas en Grupos" data-en="Group Specialists">Especialistas en Grupos</span>
+
+    <h2 class="font-heading text-4xl md:text-6xl font-bold text-white mt-4 mb-6 leading-tight">
+      <span data-es="¿Tienes un grupo grande?" data-en="Have a large group?">¿Tienes un grupo grande?</span>
+      <br />
+      <span class="grad-pink" data-es="Nosotros lo manejamos todo." data-en="We handle everything.">Nosotros lo manejamos todo.</span>
+    </h2>
+
+    <p class="text-white/65 text-lg max-w-2xl mx-auto mb-10 leading-relaxed"
+       data-es="Una sola reserva de grupo puede ser 5–20x más valiosa que una reserva individual. Nuestro equipo coordina grupos de 10 a 100+ personas — quinceañeras, bodas, torneos y reuniones familiares."
+       data-en="A single group booking can be 5–20x more valuable than an individual booking. Our team coordinates groups from 10 to 100+ people — quinceañeras, weddings, tournaments, and family reunions.">
+      Una sola reserva de grupo puede ser 5–20x más valiosa que una reserva individual. Nuestro equipo coordina grupos de 10 a 100+ personas — quinceañeras, bodas, torneos y reuniones familiares.
+    </p>
+
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="#contacto" class="btn-primary"
+         data-es="Cotiza tu grupo ahora" data-en="Get a group quote now">
+        Cotiza tu grupo ahora
+      </a>
+      <span class="text-white/45 text-sm"
+            data-es="Sin compromiso · Respuesta en 24 horas"
+            data-en="No commitment · Response within 24 hours">
+        Sin compromiso · Respuesta en 24 horas
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CONTACT ══════════ -->
+<section id="contacto" class="py-24 px-4 relative">
+  <!-- Dynamic Cinematic Background -->
+  <div class="absolute inset-0 pointer-events-none -z-10" style="background: linear-gradient(to top, #0D0520 0%, #1A1050 50%, #070515 100%);"></div>
+
+  <div class="max-w-2xl mx-auto">
+
+    <div class="text-center mb-12 reveal">
+      <span class="label" data-es="Contáctanos" data-en="Contact Us">Contáctanos</span>
+      <h2 class="font-heading text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+          data-es="Comienza Tu Magia" data-en="Start Your Magic">Comienza Tu Magia</h2>
+      <p class="text-gray-500"
+         data-es="Cuéntanos sobre tu viaje soñado. Te respondemos en menos de 24 horas."
+         data-en="Tell us about your dream trip. We'll respond in less than 24 hours.">
+        Cuéntanos sobre tu viaje soñado. Te respondemos en menos de 24 horas.
+      </p>
+    </div>
+
+    <div class="reveal glass-panel" style="border-radius:28px;padding:40px 36px; box-shadow:0 10px 60px rgba(124,58,237,.15);">
+
+      <form id="quote-form" onsubmit="handleForm(event)">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+
+          <div>
+            <label class="field-label" data-es="Nombre Completo" data-en="Full Name">Nombre Completo</label>
+            <input type="text" required class="field"
+                   placeholder="Tu nombre"
+                   data-placeholder-es="Tu nombre" data-placeholder-en="Your name" />
+          </div>
+
+          <div>
+            <label class="field-label" data-es="Teléfono / WhatsApp" data-en="Phone / WhatsApp">Teléfono / WhatsApp</label>
+            <input type="tel" class="field" placeholder="+1 (000) 000-0000" />
+          </div>
+
+          <div>
+            <label class="field-label" data-es="Correo Electrónico" data-en="Email Address">Correo Electrónico</label>
+            <input type="email" required class="field" placeholder="tu@email.com" />
+          </div>
+
+          <div>
+            <label class="field-label" data-es="Número de Viajeros" data-en="Number of Travelers">Número de Viajeros</label>
+            <select class="field" style="color:#6B7280;">
+              <option data-es="Seleccionar..." data-en="Select...">Seleccionar...</option>
+              <option>2 – 4</option>
+              <option>5 – 10</option>
+              <option data-es="11 – 20 (Grupo Pequeño)" data-en="11 – 20 (Small Group)">11 – 20 (Grupo Pequeño)</option>
+              <option data-es="21 – 50 (Grupo Mediano)" data-en="21 – 50 (Medium Group)">21 – 50 (Grupo Mediano)</option>
+              <option data-es="51+ (Grupo Grande)" data-en="51+ (Large Group)">51+ (Grupo Grande)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="field-label" data-es="Tipo de Viaje" data-en="Trip Type">Tipo de Viaje</label>
+            <select class="field" style="color:#6B7280;">
+              <option data-es="Seleccionar..." data-en="Select...">Seleccionar...</option>
+              <option data-es="Vacaciones Familiares" data-en="Family Vacation">Vacaciones Familiares</option>
+              <option data-es="Quinceañera" data-en="Quinceañera">Quinceañera</option>
+              <option data-es="Torneo Deportivo" data-en="Sports Tournament">Torneo Deportivo</option>
+              <option data-es="Boda / Luna de Miel" data-en="Wedding / Honeymoon">Boda / Luna de Miel</option>
+              <option data-es="Reunión Familiar" data-en="Family Reunion">Reunión Familiar</option>
+              <option data-es="Cumpleaños / Aniversario" data-en="Birthday / Anniversary">Cumpleaños / Aniversario</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="field-label" data-es="Fecha Aproximada" data-en="Approximate Date">Fecha Aproximada</label>
+            <input type="month" class="field" style="color:#6B7280;" />
+          </div>
+
+        </div>
+
+        <div class="mb-6">
+          <label class="field-label" data-es="Cuéntanos sobre tu viaje soñado" data-en="Tell us about your dream trip">Cuéntanos sobre tu viaje soñado</label>
+          <textarea rows="4" class="field resize-none"
+                    placeholder="Describe tu viaje ideal, fechas preferidas, celebraciones especiales..."
+                    data-placeholder-es="Describe tu viaje ideal, fechas preferidas, celebraciones especiales..."
+                    data-placeholder-en="Describe your ideal trip, preferred dates, special celebrations..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary w-full justify-center !text-base !py-4"
+                data-es="Enviar mi solicitud" data-en="Send my request">
+          Enviar mi solicitud
+        </button>
+
+        <p class="text-center text-gray-400 text-xs mt-4"
+           data-es="Al enviar este formulario, aceptas que te contactemos por WhatsApp, teléfono o correo electrónico."
+           data-en="By submitting this form, you agree to be contacted via WhatsApp, phone, or email.">
+          Al enviar este formulario, aceptas que te contactemos por WhatsApp, teléfono o correo electrónico.
+        </p>
+      </form>
+
+      <!-- Success state -->
+      <div id="form-ok" class="hidden text-center py-6">
+        <div class="text-6xl mb-4 text-purple-400"><i class="fas fa-wand-magic-sparkles"></i></div>
+        <h3 class="font-heading text-2xl font-bold text-gray-900 mb-2"
+            data-es="¡Tu magia está en camino!" data-en="Your magic is on the way!">¡Tu magia está en camino!</h3>
+        <p class="text-gray-500 text-sm"
+           data-es="Recibimos tu información. Haz clic abajo para enviarnos tu solicitud por WhatsApp."
+           data-en="We received your info. Click below to send us your request on WhatsApp.">
+          Recibimos tu información. Haz clic abajo para enviarnos tu solicitud por WhatsApp.
+        </p>
+        <a id="wa-btn" href="#" target="_blank" rel="noopener"
+           class="btn-primary inline-flex items-center gap-2 mt-6"
+           style="background:#25D366; box-shadow:0 6px 24px rgba(37,211,102,.35); border-color:#25D366;">
+          <i class="fab fa-whatsapp text-xl"></i>
+          <span data-es="Continuar en WhatsApp" data-en="Continue on WhatsApp">Continuar en WhatsApp</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Alternative contact links -->
+    <div class="mt-8 text-center reveal">
+      <p class="text-gray-400 text-sm mb-4"
+         data-es="¿Prefieres contactarnos directamente?" data-en="Prefer to reach us directly?">
+        ¿Prefieres contactarnos directamente?
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-6">
+        <a href="https://wa.me/14076705462" target="_blank" rel="noopener"
+           class="flex items-center gap-2 text-sm font-semibold text-green-600 hover:text-green-700 transition-colors">
+          <i class="fab fa-whatsapp text-xl"></i> WhatsApp
+        </a>
+        <a href="mailto:info@magictoursplanner.com"
+           class="flex items-center gap-2 text-sm font-semibold transition-colors"
+           style="color:#7C3AED;">
+          <i class="fas fa-envelope text-lg"></i> info@magictoursplanner.com
+        </a>
+        <a href="https://instagram.com/magictoursplanner" target="_blank" rel="noopener"
+           class="flex items-center gap-2 text-sm font-semibold text-pink-600 hover:text-pink-700 transition-colors">
+          <i class="fab fa-instagram text-xl"></i> @magictoursplanner
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="py-16 px-4" style="background: #05030A; border-top: 1px solid rgba(255,255,255,0.05);">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+
+      <!-- Brand column -->
+      <div class="md:col-span-2">
+        <img id="footer-logo"
+             src="brand_assets/website_logoonly_transparent_background otro eslogan 2022 -.png"
+             alt="Magic Tours Planner" class="h-16 object-contain mb-4"
+             crossorigin="anonymous" />
+        <p class="text-white/55 text-sm leading-relaxed max-w-sm mb-6"
+           data-es="Tu planificador autorizado de vacaciones Disney. Especializados en familias latinas, grupos y eventos especiales. Magia a Tu Manera."
+           data-en="Your authorized Disney vacation planner. Specialized in Latino families, groups, and special events. Magic Your Way.">
+          Tu planificador autorizado de vacaciones Disney. Especializados en familias latinas, grupos y eventos especiales. Magia a Tu Manera.
+        </p>
+        <div class="flex gap-3">
+          <a href="#" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/65 hover:text-white transition-all text-sm"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/65 hover:text-white transition-all text-sm"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/65 hover:text-white transition-all text-sm"><i class="fab fa-tiktok"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/65 hover:text-white transition-all text-sm"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <!-- Services column -->
+      <div>
+        <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-wider"
+            data-es="Servicios" data-en="Services">Servicios</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#servicios" class="text-white/50 hover:text-white transition-colors" data-es="Magic VIP Tours" data-en="Magic VIP Tours">Magic VIP Tours</a></li>
+          <li><a href="#servicios" class="text-white/50 hover:text-white transition-colors" data-es="Reservas de Hotel" data-en="Hotel Bookings">Reservas de Hotel</a></li>
+          <li><a href="#servicios" class="text-white/50 hover:text-white transition-colors" data-es="Paquetes Vacacionales" data-en="Vacation Packages">Paquetes Vacacionales</a></li>
+          <li><a href="#servicios" class="text-white/50 hover:text-white transition-colors" data-es="Boletos de Parques" data-en="Park Tickets">Boletos de Parques</a></li>
+          <li><a href="#grupos" class="text-white/50 hover:text-white transition-colors" data-es="Grupos & Eventos" data-en="Groups & Events">Grupos & Eventos</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact column -->
+      <div>
+        <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-wider"
+            data-es="Contacto" data-en="Contact">Contacto</h4>
+        <ul class="space-y-3 text-sm">
+          <li class="flex items-center gap-2 text-white/50">
+            <i class="fab fa-whatsapp text-green-400 w-4"></i>
+            <span>WhatsApp</span>
+          </li>
+          <li class="flex items-start gap-2 text-white/50">
+            <i class="fas fa-envelope w-4 mt-0.5" style="color:#A78BFA;"></i>
+            <span>info@magictoursplanner.com</span>
+          </li>
+          <li class="flex items-start gap-2 text-white/50">
+            <i class="fas fa-clock w-4 mt-0.5" style="color:#A78BFA;"></i>
+            <span data-es="Lun – Sáb: 9am – 7pm EST" data-en="Mon – Sat: 9am – 7pm EST">Lun – Sáb: 9am – 7pm EST</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-3">
+      <p class="text-white/35 text-sm"
+         data-es="© 2026 Magic Tours Planner. Todos los derechos reservados."
+         data-en="© 2026 Magic Tours Planner. All rights reserved.">
+        © 2026 Magic Tours Planner. Todos los derechos reservados.
+      </p>
+      <p class="text-white/25 text-xs italic"
+         data-es="Magic Tours Planner no está afiliado con The Walt Disney Company."
+         data-en="Magic Tours Planner is not affiliated with The Walt Disney Company.">
+        Magic Tours Planner no está afiliado con The Walt Disney Company.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════ SCRIPTS ══════════ -->
+<script>
+// ── Remove white background from logo PNGs ─────────────────────────────
+function removeWhiteBg(img) {
+  try {
+    const c = document.createElement('canvas');
+    const ctx = c.getContext('2d');
+    c.width  = img.naturalWidth;
+    c.height = img.naturalHeight;
+    ctx.drawImage(img, 0, 0);
+    const id = ctx.getImageData(0, 0, c.width, c.height);
+    const d  = id.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const r = d[i], g = d[i+1], b = d[i+2];
+      // Only touch near-white pixels (all channels > 230)
+      if (r > 230 && g > 230 && b > 230) {
+        const w = Math.min(r, g, b);           // 230–255 range
+        d[i+3] = Math.round((255 - w) / 25 * 255); // smooth fade to 0 at pure white
+      }
+    }
+    ctx.putImageData(id, 0, 0);
+    img.src = c.toDataURL('image/png');
+  } catch(e) {
+    console.warn('Logo bg removal skipped:', e);
+  }
+}
+
+function processLogo(id) {
+  const img = document.getElementById(id);
+  if (!img) return;
+  if (img.complete && img.naturalWidth) { removeWhiteBg(img); }
+  else img.addEventListener('load', () => removeWhiteBg(img));
+}
+
+// ── Stars ──────────────────────────────────────────────────────────────
+(function() {
+  const wrap = document.getElementById('stars');
+  const colors = ['#D946EF','#A78BFA','#60A5FA','#F59E0B','#FFFFFF','#F472B6'];
+  for (let i = 0; i < 90; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size  = Math.random() * 2.5 + 0.8;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const dur   = (Math.random() * 4 + 2).toFixed(1) + 's';
+    const dl    = (Math.random() * 6).toFixed(1) + 's';
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${(Math.random()*100).toFixed(2)}%;
+      top:${(Math.random()*100).toFixed(2)}%;
+      background:${color};
+      --d:${dur}; --dl:${dl};
+      animation-delay:${dl};
+      box-shadow:0 0 ${size*2}px ${color};
+    `;
+    wrap.appendChild(s);
+  }
+})();
+
+processLogo('hero-logo');
+processLogo('nav-logo');
+processLogo('footer-logo');
+
+// ── Navbar scroll ──────────────────────────────────────────────────────
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('solid', window.scrollY > 70);
+}, { passive: true });
+
+// ── Mobile menu ────────────────────────────────────────────────────────
+const mobMenu = document.getElementById('mob-menu');
+const hamIc   = document.getElementById('ham-ic');
+function toggleMob() {
+  const open = mobMenu.classList.toggle('open');
+  hamIc.className = open ? 'fas fa-times' : 'fas fa-bars';
+}
+function closeMob() {
+  mobMenu.classList.remove('open');
+  hamIc.className = 'fas fa-bars';
+}
+document.addEventListener('click', e => {
+  if (!nav.contains(e.target)) closeMob();
+});
+
+// ── Language toggle ────────────────────────────────────────────────────
+let lang = 'es';
+function setLang(l) {
+  lang = l;
+  // button states
+  ['btn-es','btn-en','btn-es-m','btn-en-m'].forEach(id => {
+    const b = document.getElementById(id);
+    if (b) b.classList.toggle('on', id.includes('-' + l) || id === 'btn-' + l);
+  });
+  // text swap
+  document.querySelectorAll('[data-' + l + ']').forEach(el => {
+    const t = el.getAttribute('data-' + l);
+    if (t !== null) el.textContent = t;
+  });
+  // placeholder swap
+  document.querySelectorAll('[data-placeholder-' + l + ']').forEach(el => {
+    el.placeholder = el.getAttribute('data-placeholder-' + l);
+  });
+  document.documentElement.lang = l;
+}
+
+// ── Count-up animation ─────────────────────────────────────────────────
+function animateCounter(el) {
+  const target   = parseInt(el.dataset.target, 10);
+  const suffix   = el.dataset.suffix || '';
+  const duration = 1800;
+  const startTs  = performance.now();
+
+  function tick(now) {
+    const elapsed  = now - startTs;
+    const progress = Math.min(elapsed / duration, 1);
+    // Ease-out cubic for a natural deceleration
+    const eased    = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(eased * target) + suffix;
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+const statsEl = document.getElementById('stats-section');
+if (statsEl) {
+  const statsObserver = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      statsEl.querySelectorAll('.counter').forEach(animateCounter);
+      statsObserver.disconnect();
+    }
+  }, { threshold: 0.5 });
+  statsObserver.observe(statsEl);
+}
+
+// ── Scroll reveal ──────────────────────────────────────────────────────
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ── Smooth scroll ──────────────────────────────────────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (!t) return;
+    e.preventDefault();
+    window.scrollTo({ top: t.getBoundingClientRect().top + scrollY - 76, behavior: 'smooth' });
+  });
+});
+
+// ── Form ───────────────────────────────────────────────────────────────
+function handleForm(e) {
+  e.preventDefault();
+  const form = document.getElementById('quote-form');
+  const ok   = document.getElementById('form-ok');
+
+  // Collect field values (DOM order: name, phone, email, travelers select, tripType select, date, textarea)
+  const fields    = form.querySelectorAll('input, select, textarea');
+  const name      = fields[0].value.trim();
+  const phone     = fields[1].value.trim();
+  const email     = fields[2].value.trim();
+  const travelers = fields[3].selectedIndex > 0 ? fields[3].value : '';
+  const tripType  = fields[4].selectedIndex > 0 ? fields[4].value : '';
+  const date      = fields[5].value;
+  const message   = fields[6].value.trim();
+
+  // Build pre-filled WhatsApp message
+  const parts = [
+    '¡Hola Magic Tours Planner! Me gustaría cotizar un viaje ✨',
+    '',
+    `👤 Nombre: ${name}`,
+    `📧 Email: ${email}`,
+    phone      ? `📱 Teléfono: ${phone}`        : null,
+    travelers  ? `👥 Viajeros: ${travelers}`     : null,
+    tripType   ? `🎯 Tipo de viaje: ${tripType}` : null,
+    date       ? `📅 Fecha aprox.: ${date}`      : null,
+    message    ? `\n💬 ${message}`               : null,
+  ].filter(p => p !== null).join('\n');
+
+  const waUrl = 'https://wa.me/14076705462?text=' + encodeURIComponent(parts);
+  document.getElementById('wa-btn').href = waUrl;
+
+  // Open WhatsApp automatically
+  window.open(waUrl, '_blank');
+
+  // Fade form out, reveal success screen
+  form.style.transition = 'opacity .3s';
+  form.style.opacity = '0';
+  setTimeout(() => {
+    form.style.display = 'none';
+    ok.classList.remove('hidden');
+    ok.style.opacity = '0';
+    requestAnimationFrame(() => {
+      ok.style.transition = 'opacity .4s';
+      ok.style.opacity = '1';
+    });
+  }, 300);
+}
+</script>
 </body>
 </html>
