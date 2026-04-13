@@ -489,7 +489,7 @@
 <body>
 
 <!-- ══════════ WHATSAPP BUBBLE ══════════ -->
-<a href="https://wa.me/1234567890" target="_blank" rel="noopener" class="wa-bubble" title="WhatsApp">
+<a href="https://wa.me/14076705462" target="_blank" rel="noopener" class="wa-bubble" title="WhatsApp">
   <i class="fab fa-whatsapp"></i>
 </a>
 
@@ -621,8 +621,8 @@
       </a>
       <a href="https://www.disneytravelcenter.com/ms0befaa00/" target="_blank" rel="noopener" class="btn-primary"
          style="background:linear-gradient(135deg,#F59E0B,#FBBF24);box-shadow:0 4px 20px rgba(245,158,11,.45);"
-         data-es="🎪 Ver Ofertas Disney" data-en="🎪 Disney Deals">
-        🎪 Ver Ofertas Disney
+         data-es="Ver Ofertas Disney" data-en="Disney Deals">
+        Ver Ofertas Disney
       </a>
     </div>
 
@@ -727,7 +727,7 @@
 <div style="background:linear-gradient(135deg,#7C3AED,#D946EF);padding:14px 16px;text-align:center;position:relative;z-index:20;">
   <a href="https://www.disneytravelcenter.com/ms0befaa00/" target="_blank" rel="noopener"
      style="color:#fff;font-weight:700;font-size:14px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;letter-spacing:0.01em;">
-    ✨ <span data-es="Reserva directamente tus paquetes Disney — Ver todas las ofertas →" data-en="Book your Disney packages directly — See all offers →">Reserva directamente tus paquetes Disney — Ver todas las ofertas →</span>
+    <span data-es="Reserva directamente tus paquetes Disney — Ver todas las ofertas →" data-en="Book your Disney packages directly — See all offers →">Reserva directamente tus paquetes Disney — Ver todas las ofertas →</span>
   </a>
 </div>
 
@@ -1233,7 +1233,7 @@
 
     <!-- Featured Review with Family Photo -->
     <div class="reveal mt-10" style="max-width:760px;margin:40px auto 0;background:rgba(255,255,255,0.92);border:1px solid rgba(124,58,237,0.15);border-radius:20px;box-shadow:0 8px 40px rgba(124,58,237,0.10);padding:28px 28px;display:flex;gap:28px;align-items:center;flex-wrap:wrap;">
-      <img src="brand_assets/familia-heidi.jpg" alt="Familia Heidy — Clientes Magic Tours Planner"
+      <img src="brand_assets/heidi family.jpeg" alt="Familia Heidy — Clientes Magic Tours Planner"
            style="width:220px;height:220px;object-fit:cover;border-radius:16px;flex-shrink:0;box-shadow:0 4px 20px rgba(0,0,0,0.12);" />
       <div style="flex:1;min-width:240px;">
         <div class="flex items-center gap-2 mb-3">
@@ -1243,9 +1243,9 @@
           <span class="text-xs font-semibold text-gray-400 ml-1">Instagram</span>
         </div>
         <p class="text-gray-700 text-base leading-relaxed italic mb-5"
-           data-es='"La mejor agencia de viaje se los recomiendo tengo muchos años trabajando con ellos son los mejores 🙌😊"'
-           data-en='"The best travel agency, I recommend them. I have been working with them for many years and they are the best 🙌😊"'>
-          "La mejor agencia de viaje se los recomiendo tengo muchos años trabajando con ellos son los mejores 🙌😊"
+           data-es='"La mejor agencia de viaje se los recomiendo tengo muchos años trabajando con ellos son los mejores."'
+           data-en='"The best travel agency, I recommend them. I have been working with them for many years and they are the best."'>
+          "La mejor agencia de viaje se los recomiendo tengo muchos años trabajando con ellos son los mejores."
         </p>
         <div class="flex items-center gap-3">
           <div class="w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold text-white flex-shrink-0"
@@ -1675,15 +1675,15 @@ function handleForm(e) {
 
   // Build pre-filled WhatsApp message
   const parts = [
-    '¡Hola Magic Tours Planner! Me gustaría cotizar un viaje ✨',
+    '¡Hola Magic Tours Planner! Me gustaría cotizar un viaje.',
     '',
-    `👤 Nombre: ${name}`,
-    `📧 Email: ${email}`,
-    phone      ? `📱 Teléfono: ${phone}`        : null,
-    travelers  ? `👥 Viajeros: ${travelers}`     : null,
-    tripType   ? `🎯 Tipo de viaje: ${tripType}` : null,
-    date       ? `📅 Fecha aprox.: ${date}`      : null,
-    message    ? `\n💬 ${message}`               : null,
+    `Nombre: ${name}`,
+    `Email: ${email}`,
+    phone      ? `Teléfono: ${phone}`        : null,
+    travelers  ? `Viajeros: ${travelers}`     : null,
+    tripType   ? `Tipo de viaje: ${tripType}` : null,
+    date       ? `Fecha aprox.: ${date}`      : null,
+    message    ? `\n${message}`               : null,
   ].filter(p => p !== null).join('\n');
 
   const waUrl = 'https://wa.me/14076705462?text=' + encodeURIComponent(parts);
