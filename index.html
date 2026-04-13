@@ -42,7 +42,7 @@
 
     *, *::before, *::after { box-sizing: border-box; }
     html { scroll-behavior: smooth; overflow-x: hidden; }
-    body { font-family: 'Inter', sans-serif; overflow-x: hidden; width: 100%; margin: 0; padding: 0; color: #1F1435; background-color: #070515; }
+    body { font-family: 'Inter', sans-serif; overflow-x: hidden; width: 100%; margin: 0; padding: 0; color: #1F1435; background-color: #F9F6FF; }
     .font-heading { font-family: 'Playfair Display', serif; }
 
     /* ── Gradient text ── */
@@ -128,8 +128,10 @@
         radial-gradient(ellipse 40% 30% at 50% 30%, rgba(180,40,160,0.10) 0%, transparent 55%),
         /* Deep shadow at floor */
         radial-gradient(ellipse 90% 35% at 50% 108%, rgba(4,2,12,0.98) 0%, transparent 65%),
-        /* Rich dark castle-interior base */
-        linear-gradient(168deg, #070515 0%, #100830 35%, #0C0F38 65%, #060910 100%);
+        /* Dark overlay over photo */
+        linear-gradient(168deg, rgba(7,5,21,0.82) 0%, rgba(16,8,48,0.76) 35%, rgba(12,15,56,0.76) 65%, rgba(6,9,16,0.90) 100%),
+        /* Magic Kingdom photo base */
+        url('brand_assets/Magic Kingdom Picture.jpg') center/cover no-repeat;
       position: relative; overflow: hidden;
     }
     /* Subtle architectural texture overlay */
@@ -241,23 +243,23 @@
       transition: background .35s, box-shadow .35s, backdrop-filter .35s;
     }
     #nav.solid {
-      background: rgba(15, 8, 38, 0.85); /* Changed to dark glass */
+      background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      box-shadow: 0 4px 30px rgba(0,0,0,.25);
-      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 0 4px 30px rgba(124,58,237,.12);
+      border: 1px solid rgba(124,58,237,0.08);
     }
     .nav-link { font-size: 14px; font-weight: 600; color: rgba(255,255,255,.85); text-decoration: none; transition: color .2s; }
     .nav-link:hover { color: #fff; }
-    #nav.solid .nav-link { color: #E9D5FF; }
-    #nav.solid .nav-link:hover { color: #fff; }
+    #nav.solid .nav-link { color: #5B21B6; }
+    #nav.solid .nav-link:hover { color: #7C3AED; }
 
     /* ── Language toggle ── */
     .lang-wrap {
       display: flex; border-radius: 50px; overflow: hidden;
       border: 1.5px solid rgba(255,255,255,.3); background: rgba(255,255,255,.1);
     }
-    #nav.solid .lang-wrap { border-color: rgba(124,58,237,.35); background: rgba(124,58,237,.08); }
+    #nav.solid .lang-wrap { border-color: rgba(124,58,237,.35); background: rgba(124,58,237,.06); }
     .lang-btn {
       padding: 4px 14px; font-size: 12px; font-weight: 700;
       cursor: pointer; border: none; background: transparent; color: rgba(255,255,255,.6);
@@ -433,40 +435,49 @@
     }
 
     /* ── Body font-size mobile ── */
-    body { font-size: 16px; color: #E2E8F0; background-color: #070515;}
+    body { font-size: 16px; color: #1F1435; background-color: #F9F6FF;}
 
-    h1, h2, h3, h4, h5, h6 { color: #ffffff; }
+    h1, h2, h3, h4, h5, h6 { color: #1F1435; }
 
-    /* ── Dark Sections ── */
-    .bg-white { background-color: transparent !important; }
-    .text-gray-900 { color: #ffffff !important; }
-    .text-gray-500, .text-gray-600 { color: rgba(255, 255, 255, 0.65) !important; }
-    .text-gray-400 { color: rgba(255, 255, 255, 0.45) !important; }
+    /* ── Light section text overrides ── */
+    .text-gray-900 { color: #1F1435 !important; }
 
     /* ── Glassmorphism Panel ── */
     .glass-panel {
-      background: rgba(25, 15, 35, 0.4);
+      background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(124, 58, 237, 0.10);
+      box-shadow: 0 8px 32px rgba(124, 58, 237, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
     }
     .glass-panel-hover:hover {
+      background: rgba(255, 255, 255, 0.95);
+      border-color: rgba(124, 58, 237, 0.25);
+      box-shadow: 0 12px 48px rgba(124, 58, 237, 0.14), inset 0 1px 0 rgba(255, 255, 255, 1);
+    }
+
+    /* ── Dark sections — revert glass panels ── */
+    #nosotros .glass-panel, #grupos .glass-panel {
+      background: rgba(25, 15, 35, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    #nosotros .glass-panel-hover:hover, #grupos .glass-panel-hover:hover {
       background: rgba(45, 25, 65, 0.5);
       border-color: rgba(167, 139, 250, 0.3);
-      box-shadow: 0 12px 48px rgba(124, 58, 237, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      box-shadow: 0 12px 48px rgba(124,58,237,0.25), inset 0 1px 0 rgba(255,255,255,0.15);
     }
 
     /* ── Form ── */
     .field {
       width: 100%; padding: 13px 16px; border-radius: 12px;
-      border: 1.5px solid rgba(255, 255, 255, 0.1); font-size: 14px; font-family: 'Inter', sans-serif;
+      border: 1.5px solid rgba(124, 58, 237, 0.2); font-size: 14px; font-family: 'Inter', sans-serif;
       outline: none; transition: border-color .2s, box-shadow .2s, background .2s;
-      color: #ffffff; background: rgba(0, 0, 0, 0.2);
+      color: #1F1435; background: rgba(255, 255, 255, 0.9);
     }
-    .field:focus { border-color: #A78BFA; background: rgba(0, 0, 0, 0.4); box-shadow: 0 0 0 3px rgba(167,139,250,.18); }
-    .field-label { display: block; font-size: 13px; font-weight: 600; color: #D8B4FE; margin-bottom: 6px; }
-    .field::placeholder { color: rgba(255,255,255,0.3); }
+    .field:focus { border-color: #7C3AED; background: #fff; box-shadow: 0 0 0 3px rgba(124,58,237,.12); }
+    .field-label { display: block; font-size: 13px; font-weight: 600; color: #5B21B6; margin-bottom: 6px; }
+    .field::placeholder { color: rgba(31,20,53,0.35); }
 
     /* ── Footer ── */
     footer { background: #05030A; border-top: 1px solid rgba(255,255,255,0.05); }
@@ -608,6 +619,11 @@
          data-es="Ver nuestros servicios" data-en="Explore our services">
         Ver nuestros servicios
       </a>
+      <a href="https://www.disneytravelcenter.com/ms0befaa00/" target="_blank" rel="noopener" class="btn-primary"
+         style="background:linear-gradient(135deg,#F59E0B,#FBBF24);box-shadow:0 4px 20px rgba(245,158,11,.45);"
+         data-es="🎪 Ver Ofertas Disney" data-en="🎪 Disney Deals">
+        🎪 Ver Ofertas Disney
+      </a>
     </div>
 
     <!-- Tagline -->
@@ -707,30 +723,38 @@
   </div>
 </section>
 
+<!-- ══════════ DISNEY OFFERS BANNER ══════════ -->
+<div style="background:linear-gradient(135deg,#7C3AED,#D946EF);padding:14px 16px;text-align:center;position:relative;z-index:20;">
+  <a href="https://www.disneytravelcenter.com/ms0befaa00/" target="_blank" rel="noopener"
+     style="color:#fff;font-weight:700;font-size:14px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;letter-spacing:0.01em;">
+    ✨ <span data-es="Reserva directamente tus paquetes Disney — Ver todas las ofertas →" data-en="Book your Disney packages directly — See all offers →">Reserva directamente tus paquetes Disney — Ver todas las ofertas →</span>
+  </a>
+</div>
+
 <!-- ══════════ STATS BAR ══════════ -->
-<section id="stats-section" class="py-10 px-4 shadow-[0_4px_30px_rgba(0,0,0,.3)] relative" style="background: rgba(10, 5, 25, 0.7); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); z-index: 10;">
+<section id="stats-section" class="py-10 px-4 relative" style="background: rgba(124, 58, 237, 0.05); backdrop-filter: blur(20px); border-top: 1px solid rgba(124,58,237,0.1); border-bottom: 1px solid rgba(124,58,237,0.1); z-index: 10;">
   <div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
     <div>
-      <div class="text-3xl font-bold" style="color:#D8B4FE;">
+      <div class="text-3xl font-bold" style="color:#7C3AED;">
         <span class="counter" data-target="500" data-suffix="+">0</span>
       </div>
-      <div class="text-sm text-gray-400 mt-1" data-es="Familias Felices" data-en="Happy Families">Familias Felices</div>
+      <div class="text-sm text-gray-500 mt-1" data-es="Familias Felices" data-en="Happy Families">Familias Felices</div>
     </div>
     <div>
-      <div class="text-3xl font-bold" style="color:#D8B4FE;">
+      <div class="text-3xl font-bold" style="color:#7C3AED;">
         <span class="counter" data-target="10" data-suffix="+">0</span>
       </div>
-      <div class="text-sm text-gray-400 mt-1" data-es="Años de Experiencia" data-en="Years of Experience">Años de Experiencia</div>
+      <div class="text-sm text-gray-500 mt-1" data-es="Años de Experiencia" data-en="Years of Experience">Años de Experiencia</div>
     </div>
     <div>
-      <div class="text-3xl font-bold" style="color:#D8B4FE;">
-        <i class="fas fa-star" style="color:#D8B4FE; font-size: 20px;"></i> <span class="counter" data-target="5" data-suffix=".0">0</span>
+      <div class="text-3xl font-bold" style="color:#7C3AED;">
+        <i class="fas fa-star" style="color:#F59E0B; font-size: 20px;"></i> <span class="counter" data-target="5" data-suffix=".0">0</span>
       </div>
-      <div class="text-sm text-gray-400 mt-1" data-es="Calificación Promedio" data-en="Average Rating">Calificación Promedio</div>
+      <div class="text-sm text-gray-500 mt-1" data-es="Calificación Promedio" data-en="Average Rating">Calificación Promedio</div>
     </div>
     <div>
-      <div class="text-3xl font-bold" style="color:#D8B4FE;">✓ Auth.</div>
-      <div class="text-sm text-gray-400 mt-1" data-es="Planificador Autorizado Disney" data-en="Authorized Disney Planner">Planificador Autorizado Disney</div>
+      <div class="text-3xl font-bold" style="color:#7C3AED;">✓ Auth.</div>
+      <div class="text-sm text-gray-500 mt-1" data-es="Planificador Autorizado Disney" data-en="Authorized Disney Planner">Planificador Autorizado Disney</div>
     </div>
   </div>
 </section>
@@ -738,16 +762,16 @@
 <!-- ══════════ SERVICES ══════════ -->
 <section id="servicios" class="py-24 px-4 relative">
   <!-- Dynamic Cinematic Background -->
-  <div class="absolute inset-0 pointer-events-none -z-10" style="background: linear-gradient(170deg, #070515 0%, #170B3B 50%, #070515 100%);">
-    <div class="orb w-[500px] h-[500px] top-0 right-[-100px] opacity-20 filter blur-[100px]" style="background: #7C3AED;"></div>
-    <div class="orb w-[400px] h-[400px] bottom-0 left-[-50px] opacity-15 filter blur-[100px]" style="background: #3B82F6;"></div>
+  <div class="absolute inset-0 pointer-events-none -z-10" style="background: linear-gradient(170deg, #F9F6FF 0%, #EDE9FE 50%, #F9F6FF 100%);">
+    <div class="orb w-[500px] h-[500px] top-0 right-[-100px] opacity-30 filter blur-[100px]" style="background: #C4B5FD;"></div>
+    <div class="orb w-[400px] h-[400px] bottom-0 left-[-50px] opacity-20 filter blur-[100px]" style="background: #93C5FD;"></div>
   </div>
 
   <div class="max-w-7xl mx-auto">
 
     <div class="text-center mb-20 reveal">
-      <span class="label" style="color: #D8B4FE;" data-es="Lo Que Ofrecemos" data-en="What We Offer">Lo Que Ofrecemos</span>
-      <h2 class="font-heading text-4xl md:text-5xl font-bold text-white mb-4"
+      <span class="label" data-es="Lo Que Ofrecemos" data-en="What We Offer">Lo Que Ofrecemos</span>
+      <h2 class="font-heading text-4xl md:text-5xl font-bold text-gray-900 mb-4"
           data-es="Nuestros Servicios" data-en="Our Services">Nuestros Servicios</h2>
       <p class="text-gray-500 max-w-xl mx-auto"
          data-es="Todo lo que necesitas para vivir la magia Disney sin estrés."
@@ -983,8 +1007,8 @@
 <!-- ══════════ WHO WE SERVE ══════════ -->
 <section class="py-24 px-4 relative">
   <!-- Dynamic Cinematic Background -->
-  <div class="absolute inset-0 pointer-events-none -z-10" style="background: linear-gradient(135deg, #070515 0%, #0F0826 100%);">
-    <div class="orb w-[600px] h-[600px] top-[10%] left-[20%] opacity-10 filter blur-[120px]" style="background: #D946EF;"></div>
+  <div class="absolute inset-0 pointer-events-none -z-10" style="background: linear-gradient(135deg, #F9F6FF 0%, #EDE9FE 100%);">
+    <div class="orb w-[600px] h-[600px] top-[10%] left-[20%] opacity-25 filter blur-[120px]" style="background: #C084FC;"></div>
   </div>
 
   <div class="max-w-7xl mx-auto">
@@ -1001,8 +1025,8 @@
       <div class="aud-card reveal glass-panel glass-panel-hover" style="border-radius: 20px; padding: 28px 24px; position: relative; transition: transform .3s, box-shadow .3s, border-color .3s; border-color: rgba(167, 139, 250, 0.2);">
         <span class="badge" style="background:#7C3AED;" data-es="Más Popular" data-en="Most Popular">Más Popular</span>
         <div class="text-5xl mb-4 text-purple-400"><i class="fas fa-child"></i></div>
-        <h3 class="text-xl font-bold text-white mb-2" data-es="Familias Latinas" data-en="Latino Families">Familias Latinas</h3>
-        <p class="text-gray-400 text-sm leading-relaxed"
+        <h3 class="text-xl font-bold text-gray-900 mb-2" data-es="Familias Latinas" data-en="Latino Families">Familias Latinas</h3>
+        <p class="text-gray-500 text-sm leading-relaxed"
            data-es="Grupos de 4 a 12+ personas. Creamos el itinerario perfecto para que toda la familia viva su sueño Disney."
            data-en="Groups of 4 to 12+ people. We create the perfect itinerary for the whole family to live their Disney dream.">
           Grupos de 4 a 12+ personas. Creamos el itinerario perfecto para que toda la familia viva su sueño Disney.
@@ -1013,8 +1037,8 @@
       <div class="aud-card reveal glass-panel glass-panel-hover" style="transition-delay:.08s; border-radius: 20px; padding: 28px 24px; position: relative; transition: transform .3s, box-shadow .3s, border-color .3s; border-color: rgba(217, 70, 239, 0.2);">
         <span class="badge" style="background:#D946EF;" data-es="¡Nuevo!" data-en="New!">¡Nuevo!</span>
         <div class="text-5xl mb-4 text-pink-400"><i class="fas fa-crown"></i></div>
-        <h3 class="text-xl font-bold text-white mb-2" data-es="Quinceañeras" data-en="Quinceañeras">Quinceañeras</h3>
-        <p class="text-gray-400 text-sm leading-relaxed"
+        <h3 class="text-xl font-bold text-gray-900 mb-2" data-es="Quinceañeras" data-en="Quinceañeras">Quinceañeras</h3>
+        <p class="text-gray-500 text-sm leading-relaxed"
            data-es="De 15 a 60+ invitados. Convierte los 15 años más especiales en una celebración mágica en el reino de los sueños."
            data-en="From 15 to 60+ guests. Turn the most special 15th birthday into a magical celebration in the kingdom of dreams.">
           De 15 a 60+ invitados. Convierte los 15 años más especiales en una celebración mágica en el reino de los sueños.
@@ -1024,8 +1048,8 @@
       <!-- Groups & Events -->
       <div class="aud-card reveal glass-panel glass-panel-hover" style="transition-delay:.16s; border-radius: 20px; padding: 28px 24px; position: relative; transition: transform .3s, box-shadow .3s, border-color .3s; border-color: rgba(245, 158, 11, 0.2);">
         <div class="text-5xl mb-4 text-yellow-400"><i class="fas fa-glass-cheers"></i></div>
-        <h3 class="text-xl font-bold text-white mb-2" data-es="Grupos & Eventos" data-en="Groups & Events">Grupos & Eventos</h3>
-        <p class="text-gray-400 text-sm leading-relaxed"
+        <h3 class="text-xl font-bold text-gray-900 mb-2" data-es="Grupos & Eventos" data-en="Groups & Events">Grupos & Eventos</h3>
+        <p class="text-gray-500 text-sm leading-relaxed"
            data-es="Cumpleaños, aniversarios, reuniones de 8 a 80+ personas. Cada momento se convierte en un recuerdo inolvidable."
            data-en="Birthdays, anniversaries, reunions from 8 to 80+ people. Every moment becomes an unforgettable memory.">
           Cumpleaños, aniversarios, reuniones de 8 a 80+ personas. Cada momento se convierte en un recuerdo inolvidable.
@@ -1035,8 +1059,8 @@
       <!-- Sports Tournaments -->
       <div class="aud-card reveal glass-panel glass-panel-hover" style="transition-delay:.08s; border-radius: 20px; padding: 28px 24px; position: relative; transition: transform .3s, box-shadow .3s, border-color .3s; border-color: rgba(16, 185, 129, 0.2);">
         <div class="text-5xl mb-4 text-green-400"><i class="fas fa-futbol"></i></div>
-        <h3 class="text-xl font-bold text-white mb-2" data-es="Torneos Deportivos" data-en="Sports Tournaments">Torneos Deportivos</h3>
-        <p class="text-gray-400 text-sm leading-relaxed"
+        <h3 class="text-xl font-bold text-gray-900 mb-2" data-es="Torneos Deportivos" data-en="Sports Tournaments">Torneos Deportivos</h3>
+        <p class="text-gray-500 text-sm leading-relaxed"
            data-es="Familias de torneos Disney (10–50+ familias). Coordinamos alojamiento, boletos y logística completa."
            data-en="Disney tournament families (10–50+ families). We coordinate lodging, tickets, and complete logistics.">
           Familias de torneos Disney (10–50+ familias). Coordinamos alojamiento, boletos y logística completa.
@@ -1046,8 +1070,8 @@
       <!-- Weddings -->
       <div class="aud-card reveal glass-panel glass-panel-hover" style="transition-delay:.16s; border-radius: 20px; padding: 28px 24px; position: relative; transition: transform .3s, box-shadow .3s, border-color .3s; border-color: rgba(59, 130, 246, 0.2);">
         <div class="text-5xl mb-4 text-blue-400"><i class="fas fa-ring"></i></div>
-        <h3 class="text-xl font-bold text-white mb-2" data-es="Bodas & Lunas de Miel" data-en="Weddings & Honeymoons">Bodas & Lunas de Miel</h3>
-        <p class="text-gray-400 text-sm leading-relaxed"
+        <h3 class="text-xl font-bold text-gray-900 mb-2" data-es="Bodas & Lunas de Miel" data-en="Weddings & Honeymoons">Bodas & Lunas de Miel</h3>
+        <p class="text-gray-500 text-sm leading-relaxed"
            data-es="Bodas de destino de 20 a 100+ invitados. Que tu día más especial ocurra en el lugar más mágico del mundo."
            data-en="Destination weddings from 20 to 100+ guests. Let your most special day happen in the most magical place on Earth.">
           Bodas de destino de 20 a 100+ invitados. Que tu día más especial ocurra en el lugar más mágico del mundo.
@@ -1057,8 +1081,8 @@
       <!-- Family Reunions -->
       <div class="aud-card reveal glass-panel glass-panel-hover" style="transition-delay:.24s; border-radius: 20px; padding: 28px 24px; position: relative; transition: transform .3s, box-shadow .3s, border-color .3s; border-color: rgba(239, 68, 68, 0.2);">
         <div class="text-5xl mb-4 text-red-400"><i class="fas fa-home"></i></div>
-        <h3 class="text-xl font-bold text-white mb-2" data-es="Reuniones Familiares" data-en="Family Reunions">Reuniones Familiares</h3>
-        <p class="text-gray-400 text-sm leading-relaxed"
+        <h3 class="text-xl font-bold text-gray-900 mb-2" data-es="Reuniones Familiares" data-en="Family Reunions">Reuniones Familiares</h3>
+        <p class="text-gray-500 text-sm leading-relaxed"
            data-es="Reúne a toda la familia en Disney (20–80+ personas). Experiencias que conectan generaciones y crean memorias para toda la vida."
            data-en="Gather the whole family at Disney (20–80+ people). Experiences that connect generations and create lifelong memories.">
           Reúne a toda la familia en Disney (20–80+ personas). Experiencias que conectan generaciones y crean memorias para toda la vida.
@@ -1072,7 +1096,7 @@
 <!-- ══════════ HOW IT WORKS ══════════ -->
 <section class="py-24 px-4 relative">
   <!-- Dynamic Cinematic Background -->
-  <div class="absolute inset-0 pointer-events-none -z-10" style="background: linear-gradient(to bottom, #0F0826 0%, #070515 100%);"></div>
+  <div class="absolute inset-0 pointer-events-none -z-10" style="background: linear-gradient(to bottom, #EDE9FE 0%, #F9F6FF 100%);"></div>
 
   <div class="max-w-5xl mx-auto">
 
@@ -1129,8 +1153,8 @@
 <!-- ══════════ TESTIMONIALS ══════════ -->
 <section class="py-24 px-4 relative">
   <!-- Dynamic Cinematic Background -->
-  <div class="absolute inset-0 pointer-events-none -z-10" style="background: linear-gradient(160deg, #070515 0%, #170B3B 100%);">
-     <div class="orb w-[400px] h-[400px] bottom-[10%] right-[10%] opacity-20 filter blur-[90px]" style="background: #F59E0B;"></div>
+  <div class="absolute inset-0 pointer-events-none -z-10" style="background: linear-gradient(160deg, #F9F6FF 0%, #EDE9FE 100%);">
+     <div class="orb w-[400px] h-[400px] bottom-[10%] right-[10%] opacity-30 filter blur-[90px]" style="background: #C084FC;"></div>
   </div>
 
   <div class="max-w-7xl mx-auto">
@@ -1206,6 +1230,34 @@
       </div>
 
     </div>
+
+    <!-- Featured Review with Family Photo -->
+    <div class="reveal mt-10" style="max-width:760px;margin:40px auto 0;background:rgba(255,255,255,0.92);border:1px solid rgba(124,58,237,0.15);border-radius:20px;box-shadow:0 8px 40px rgba(124,58,237,0.10);padding:28px 28px;display:flex;gap:28px;align-items:center;flex-wrap:wrap;">
+      <img src="brand_assets/familia-heidi.jpg" alt="Familia Heidy — Clientes Magic Tours Planner"
+           style="width:220px;height:220px;object-fit:cover;border-radius:16px;flex-shrink:0;box-shadow:0 4px 20px rgba(0,0,0,0.12);" />
+      <div style="flex:1;min-width:240px;">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="flex gap-0.5" style="color:#F59E0B;font-size:18px;">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <span class="text-xs font-semibold text-gray-400 ml-1">Instagram</span>
+        </div>
+        <p class="text-gray-700 text-base leading-relaxed italic mb-5"
+           data-es='"La mejor agencia de viaje se los recomiendo tengo muchos años trabajando con ellos son los mejores 🙌😊"'
+           data-en='"The best travel agency, I recommend them. I have been working with them for many years and they are the best 🙌😊"'>
+          "La mejor agencia de viaje se los recomiendo tengo muchos años trabajando con ellos son los mejores 🙌😊"
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold text-white flex-shrink-0"
+               style="background:linear-gradient(135deg,#D946EF,#7C3AED);">HR</div>
+          <div>
+            <div class="font-semibold text-gray-900 text-sm">Heidy Rodriguez</div>
+            <div class="text-gray-400 text-xs">@heidirodriguez5602 · Instagram</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1249,7 +1301,7 @@
 <!-- ══════════ CONTACT ══════════ -->
 <section id="contacto" class="py-24 px-4 relative">
   <!-- Dynamic Cinematic Background -->
-  <div class="absolute inset-0 pointer-events-none -z-10" style="background: linear-gradient(to top, #0D0520 0%, #1A1050 50%, #070515 100%);"></div>
+  <div class="absolute inset-0 pointer-events-none -z-10" style="background: linear-gradient(to top, #EDE9FE 0%, #F3EEFF 50%, #F9F6FF 100%);"></div>
 
   <div class="max-w-2xl mx-auto">
 
