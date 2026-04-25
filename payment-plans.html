@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Planes de Pago — Magic Tours Planner</title>
+  <meta name="description" content="Reserva tu vacación Disney desde solo $200 de depósito. Pagos flexibles a tu ritmo. Magic Tours Planner hace que el sueño Disney sea posible para tu familia." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            heading: ['Playfair Display', 'serif'],
+            body: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --p:  #7C3AED;
+      --pd: #5B21B6;
+      --pp: #3B0764;
+      --pk: #D946EF;
+      --go: #F59E0B;
+      --dark: #0D0520;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body { font-family: 'Inter', sans-serif; overflow-x: hidden; width: 100%; margin: 0; padding: 0; color: #1F1435; background-color: #F9F6FF; font-size: 16px; }
+    .font-heading { font-family: 'Playfair Display', serif; }
+    h1,h2,h3,h4,h5,h6 { color: #1F1435; }
+    .text-gray-900 { color: #1F1435 !important; }
+
+    /* ── Gradient text ── */
+    .grad-pink   { background: linear-gradient(135deg,#D946EF,#A78BFA,#60A5FA); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .grad-gold   { background: linear-gradient(135deg,#F59E0B,#FDE68A,#F59E0B); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .grad-purple { background: linear-gradient(135deg,#7C3AED,#D946EF);          -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      background: linear-gradient(135deg,#7C3AED,#D946EF);
+      color:#fff; padding:14px 32px; border-radius:50px;
+      font-weight:700; font-size:15px; letter-spacing:.3px;
+      transition: transform .3s cubic-bezier(.25,.46,.45,.94), box-shadow .3s cubic-bezier(.25,.46,.45,.94);
+      box-shadow:0 4px 20px rgba(124,58,237,.45);
+      display:inline-flex; align-items:center; gap:8px;
+      cursor:pointer; border:none; text-decoration:none;
+    }
+    .btn-primary:hover { transform:scale(1.03); box-shadow:0 10px 35px rgba(124,58,237,.65); }
+    .btn-primary:active { transform:scale(.97); }
+    .btn-outline {
+      background:transparent; color:#fff;
+      padding:13px 32px; border-radius:50px; font-weight:700; font-size:15px;
+      border:2px solid rgba(255,255,255,.35);
+      transition: transform .3s, background .3s, border-color .3s;
+      display:inline-flex; align-items:center; gap:8px; cursor:pointer; text-decoration:none;
+    }
+    .btn-outline:hover { transform:scale(1.03); border-color:#fff; background:rgba(255,255,255,.1); }
+
+    /* ── Navbar ── */
+    #nav-wrapper { position:fixed; top:1rem; left:1rem; right:1rem; z-index:100; display:flex; justify-content:center; pointer-events:none; }
+    #nav {
+      pointer-events:auto; background:transparent; border-radius:9999px;
+      position:relative; padding:12px 24px;
+      display:flex; align-items:center; justify-content:space-between;
+      width:100%; max-width:1280px;
+      transition:background .35s, box-shadow .35s, backdrop-filter .35s;
+    }
+    #nav.solid { background:rgba(255,255,255,.92); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); box-shadow:0 4px 30px rgba(124,58,237,.12); border:1px solid rgba(124,58,237,.08); }
+    .nav-link { font-size:14px; font-weight:600; color:rgba(255,255,255,.85); text-decoration:none; transition:color .2s; }
+    .nav-link:hover { color:#fff; }
+    .nav-link.active { color:#D946EF; }
+    #nav.solid .nav-link { color:#5B21B6; }
+    #nav.solid .nav-link:hover { color:#7C3AED; }
+    #nav.solid .nav-link.active { color:#7C3AED; font-weight:700; }
+
+    /* ── Lang toggle ── */
+    .lang-wrap { display:flex; border-radius:50px; overflow:hidden; border:1.5px solid rgba(255,255,255,.3); background:rgba(255,255,255,.1); }
+    #nav.solid .lang-wrap { border-color:rgba(124,58,237,.35); background:rgba(124,58,237,.06); }
+    .lang-btn { padding:4px 14px; font-size:12px; font-weight:700; cursor:pointer; border:none; background:transparent; color:rgba(255,255,255,.6); transition:all .2s; }
+    .lang-btn.on { background:#fff; color:#7C3AED; border-radius:50px; }
+    #nav.solid .lang-btn { color:#7C3AED; }
+    #nav.solid .lang-btn.on { background:#7C3AED; color:#fff; }
+
+    /* ── Mobile menu ── */
+    #mob-menu { display:none; position:absolute; left:0; right:0; top:100%; margin-top:10px; background:rgba(15,8,38,.95); backdrop-filter:blur(16px); padding:12px 16px 20px; box-shadow:0 12px 40px rgba(0,0,0,.3); border:1px solid rgba(255,255,255,.05); border-radius:20px; }
+    #mob-menu.open { display:block; }
+    @media (min-width:768px) { #mob-menu.open { display:none !important; } }
+    #mob-menu a { display:block; padding:10px 12px; border-radius:10px; font-weight:600; font-size:14px; color:#E9D5FF; text-decoration:none; transition:background .2s, color .2s; }
+    #mob-menu a:hover { background:rgba(124,58,237,.2); color:#fff; }
+    #mob-menu a.active { color:#D946EF; }
+    #ham-icon { cursor:pointer; color:rgba(255,255,255,.9); font-size:20px; transition:color .2s; }
+    #nav.solid #ham-icon { color:#E9D5FF; }
+
+    /* ── Labels ── */
+    .label { display:inline-block; font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#7C3AED; margin-bottom:12px; }
+
+    /* ── Glass panels ── */
+    .glass-panel { background:rgba(255,255,255,.85); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border:1px solid rgba(124,58,237,.10); box-shadow:0 8px 32px rgba(124,58,237,.08), inset 0 1px 0 rgba(255,255,255,.9); }
+    .glass-panel-hover:hover { background:rgba(255,255,255,.95); border-color:rgba(124,58,237,.25); box-shadow:0 12px 48px rgba(124,58,237,.14), inset 0 1px 0 rgba(255,255,255,1); }
+
+    /* ── Scroll reveal ── */
+    .reveal { opacity:0; transform:translateY(32px); transition:opacity .65s ease, transform .65s ease; }
+    .reveal.in { opacity:1; transform:none; }
+
+    /* ── Hero ── */
+    .pp-hero {
+      background:
+        radial-gradient(ellipse 100% 45% at 50% -2%, rgba(200,155,45,.14) 0%, transparent 60%),
+        radial-gradient(ellipse 55% 70% at 8%  55%, rgba(95,25,190,.30) 0%, transparent 55%),
+        radial-gradient(ellipse 55% 70% at 92% 55%, rgba(95,25,190,.30) 0%, transparent 55%),
+        radial-gradient(ellipse 90% 35% at 50% 108%, rgba(4,2,12,.98) 0%, transparent 65%),
+        linear-gradient(168deg, rgba(7,5,21,.88) 0%, rgba(16,8,48,.82) 35%, rgba(12,15,56,.82) 65%, rgba(6,9,16,.92) 100%),
+        url('brand_assets/Magic Kingdom Picture.jpg') center/cover no-repeat;
+      position:relative; overflow:hidden;
+      min-height:72vh;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .pp-hero::after {
+      content:''; position:absolute; inset:0; pointer-events:none; z-index:1;
+      background-image:
+        repeating-linear-gradient(90deg, rgba(160,100,255,.022) 0px, rgba(160,100,255,.022) 1px, transparent 1px, transparent 120px),
+        repeating-linear-gradient(0deg,  rgba(160,100,255,.018) 0px, rgba(160,100,255,.018) 1px, transparent 1px, transparent 120px);
+    }
+    .orb { position:absolute; border-radius:50%; pointer-events:none; filter:blur(80px); opacity:.15; }
+
+    /* ── Deposit callout ── */
+    .deposit-card {
+      background:linear-gradient(135deg, rgba(59,7,100,.92), rgba(91,33,182,.85));
+      border:1px solid rgba(167,139,250,.25);
+      border-radius:24px;
+      backdrop-filter:blur(16px);
+      box-shadow:0 24px 80px rgba(124,58,237,.35), inset 0 1px 0 rgba(255,255,255,.12);
+    }
+    .deposit-badge {
+      display:inline-flex; align-items:center; gap:6px;
+      background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.15);
+      border-radius:50px; padding:6px 16px;
+      font-size:12px; font-weight:700; color:rgba(255,255,255,.8); letter-spacing:.08em;
+    }
+    .trust-chip {
+      display:inline-flex; align-items:center; gap:8px;
+      background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14);
+      border-radius:50px; padding:10px 20px;
+      font-size:13px; font-weight:600; color:rgba(255,255,255,.9);
+    }
+
+    /* ── Step circles ── */
+    .step-num {
+      width:80px; height:80px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-size:24px; font-weight:700; color:#fff;
+      margin:0 auto 24px; box-shadow:0 8px 28px rgba(124,58,237,.4);
+    }
+
+    /* ── Info cards (how it works) ── */
+    .info-card {
+      background:#fff; border-radius:20px; padding:32px 28px;
+      border:1px solid #EDE9FE; border-top:4px solid var(--p);
+      transition:transform .3s, box-shadow .3s;
+    }
+    .info-card:hover { transform:translateY(-6px); box-shadow:0 20px 50px rgba(124,58,237,.12); }
+
+    /* ── Park grid ── */
+    .park-chip {
+      display:flex; align-items:center; gap:10px;
+      background:#fff; border-radius:14px; padding:12px 16px;
+      border:1px solid #EDE9FE;
+      transition:transform .25s, box-shadow .25s, border-color .25s;
+      font-size:13px; font-weight:600; color:#1F1435;
+    }
+    .park-chip:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(124,58,237,.12); border-color:#C084FC; }
+    .park-thumb {
+      width:40px; height:40px; border-radius:8px; object-fit:cover; flex-shrink:0;
+    }
+
+    /* ── FAQ ── */
+    .faq-item { border-bottom:1px solid rgba(124,58,237,.1); }
+    .faq-q {
+      width:100%; text-align:left; background:none; border:none; cursor:pointer;
+      padding:20px 0; display:flex; align-items:center; justify-content:space-between; gap:12px;
+      font-size:16px; font-weight:600; color:#1F1435; font-family:'Inter',sans-serif;
+      transition:color .2s;
+    }
+    .faq-q:hover { color:#7C3AED; }
+    .faq-q .faq-icon { color:#7C3AED; font-size:18px; flex-shrink:0; transition:transform .3s; }
+    .faq-q.open .faq-icon { transform:rotate(45deg); }
+    .faq-a { display:none; padding:0 0 20px; font-size:15px; color:#6B7280; line-height:1.75; }
+    .faq-a.open { display:block; }
+
+    /* ── CTA section ── */
+    .cta-bg { background:linear-gradient(135deg,#0D0520 0%,#2D0B6B 60%,#3B0764 100%); }
+
+    /* ── Footer ── */
+    footer { background:#05030A; border-top:1px solid rgba(255,255,255,.05); }
+
+    /* ── WhatsApp bubble ── */
+    .wa-bubble { position:fixed; bottom:28px; right:28px; z-index:200; width:60px; height:60px; border-radius:50%; background:#25D366; color:#fff; display:flex; align-items:center; justify-content:center; font-size:28px; box-shadow:0 6px 24px rgba(37,211,102,.5); text-decoration:none; transition:transform .3s, box-shadow .3s; }
+    .wa-bubble:hover { transform:scale(1.1); box-shadow:0 10px 36px rgba(37,211,102,.7); }
+
+    @keyframes float-y { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-16px)} }
+    .float { animation:float-y 5s ease-in-out infinite; }
+  </style>
+</head>
+<body>
+
+<!-- WhatsApp bubble -->
+<a href="https://wa.me/14076705462" target="_blank" rel="noopener" class="wa-bubble" title="WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- ══════════ NAVBAR ══════════ -->
+<div id="nav-wrapper">
+<nav id="nav">
+  <div class="w-full flex items-center justify-between">
+
+    <a href="index.html" class="flex-shrink-0">
+      <img id="nav-logo"
+           src="brand_assets/website_logoonly_transparent_background otro eslogan 2022 -.png"
+           alt="Magic Tours Planner" class="h-[72px] object-contain" crossorigin="anonymous" />
+    </a>
+
+    <!-- Desktop links -->
+    <div class="hidden md:flex items-center gap-8">
+      <a href="index.html#servicios" class="nav-link" data-es="Servicios"        data-en="Services"        >Servicios</a>
+      <a href="index.html#nosotros"  class="nav-link" data-es="Nosotros"         data-en="About Us"        >Nosotros</a>
+      <a href="index.html#grupos"    class="nav-link" data-es="Grupos &amp; Eventos" data-en="Groups &amp; Events">Grupos &amp; Eventos</a>
+      <a href="payment-plans.html"   class="nav-link active" data-es="Planes de Pago" data-en="Payment Plans">Planes de Pago</a>
+      <a href="index.html#contacto"  class="nav-link" data-es="Contacto"         data-en="Contact"         >Contacto</a>
+      <div class="lang-wrap">
+        <button class="lang-btn on" id="btn-es" onclick="setLang('es')">ES</button>
+        <button class="lang-btn"    id="btn-en" onclick="setLang('en')">EN</button>
+      </div>
+      <a href="index.html#contacto" class="btn-primary !py-[11px] !px-6 !text-sm"
+         data-es="Cotización Gratis" data-en="Free Quote">Cotización Gratis</a>
+    </div>
+
+    <!-- Mobile -->
+    <div class="flex items-center gap-3 md:hidden">
+      <div class="lang-wrap">
+        <button class="lang-btn on" id="btn-es-m" onclick="setLang('es')">ES</button>
+        <button class="lang-btn"    id="btn-en-m" onclick="setLang('en')">EN</button>
+      </div>
+      <button onclick="toggleMob()" id="ham-icon"><i class="fas fa-bars" id="ham-ic"></i></button>
+    </div>
+  </div>
+
+  <div id="mob-menu">
+    <a href="index.html#servicios" onclick="closeMob()" data-es="Servicios"         data-en="Services"         >Servicios</a>
+    <a href="index.html#nosotros"  onclick="closeMob()" data-es="Nosotros"          data-en="About Us"         >Nosotros</a>
+    <a href="index.html#grupos"    onclick="closeMob()" data-es="Grupos &amp; Eventos" data-en="Groups &amp; Events">Grupos &amp; Eventos</a>
+    <a href="payment-plans.html"   onclick="closeMob()" class="active" data-es="Planes de Pago" data-en="Payment Plans">Planes de Pago</a>
+    <a href="index.html#contacto"  onclick="closeMob()" data-es="Contacto"          data-en="Contact"          >Contacto</a>
+    <div class="pt-3 border-t border-purple-100">
+      <a href="index.html#contacto" onclick="closeMob()" class="btn-primary w-full justify-center !text-sm"
+         data-es="Cotización Gratis" data-en="Free Quote">Cotización Gratis</a>
+    </div>
+  </div>
+</nav>
+</div>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="pp-hero px-4" style="padding-top:140px; padding-bottom:100px;">
+  <div class="orb w-96 h-96 top-1/4 -left-20" style="background:#D946EF;"></div>
+  <div class="orb w-80 h-80 bottom-1/4 -right-16" style="background:#7C3AED;"></div>
+
+  <div class="max-w-4xl mx-auto text-center relative z-10">
+    <span class="deposit-badge mb-6 inline-flex" data-es="✦ Planes de Pago Flexibles" data-en="✦ Flexible Payment Plans">✦ Planes de Pago Flexibles</span>
+
+    <h1 class="font-heading text-4xl md:text-6xl font-bold text-white leading-[1.12] mb-6 mt-4">
+      <span class="block" data-es="Haz Realidad Tu" data-en="Make Your">Haz Realidad Tu</span>
+      <span class="grad-pink" data-es="Vacación Soñada" data-en="Dream Vacation">Vacación Soñada</span>
+    </h1>
+
+    <p class="text-white/70 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-10"
+       data-es="Reserva hoy con solo $200 de depósito. El resto lo pagamos juntos — a tu ritmo, sin estrés y sin sorpresas."
+       data-en="Book today with just a $200 deposit. We'll handle the rest — at your pace, stress-free and no surprises.">
+      Reserva hoy con solo $200 de depósito. El resto lo pagamos juntos — a tu ritmo, sin estrés y sin sorpresas.
+    </p>
+
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="#como-funciona" class="btn-primary"
+         data-es="Ver cómo funciona" data-en="See how it works">
+        <i class="fas fa-wand-magic-sparkles"></i>
+        Ver cómo funciona
+      </a>
+      <a href="https://wa.me/14076705462" target="_blank" rel="noopener" class="btn-outline"
+         data-es="Hablar con un agente" data-en="Talk to an agent">
+        <i class="fab fa-whatsapp"></i>
+        Hablar con un agente
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ HOW IT WORKS ══════════ -->
+<section id="como-funciona" class="py-24 px-4 relative">
+  <div class="absolute inset-0 pointer-events-none -z-10" style="background:linear-gradient(135deg,#F9F6FF 0%,#EDE9FE 100%);">
+    <div class="orb w-[500px] h-[500px] top-0 right-[5%] opacity-20 filter blur-[100px]" style="background:#C084FC;"></div>
+  </div>
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-16 reveal">
+      <span class="label" data-es="El Proceso" data-en="The Process">El Proceso</span>
+      <h2 class="font-heading text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+          data-es="Así de Simple" data-en="This Simple">Así de Simple</h2>
+      <p class="text-gray-500 max-w-lg mx-auto"
+         data-es="En 3 pasos, aseguramos tu vacación Disney sin que tengas que pagar todo de golpe."
+         data-en="In 3 steps, we secure your Disney vacation without you having to pay everything upfront.">
+        En 3 pasos, aseguramos tu vacación Disney sin que tengas que pagar todo de golpe.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+      <div class="text-center reveal">
+        <div class="step-num float" style="background:linear-gradient(135deg,#7C3AED,#5B21B6); box-shadow:0 8px 28px rgba(124,58,237,.4);">1</div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3"
+            data-es="Reserva con $200" data-en="$200 Deposit">Reserva con $200</h3>
+        <p class="text-gray-500 text-sm leading-relaxed"
+           data-es="Un depósito de solo $200 asegura tus fechas y bloquea tu paquete. Sin riesgo ni compromisos extras."
+           data-en="A deposit of just $200 locks in your dates and secures your package. No risk, no extra commitments.">
+          Un depósito de solo $200 asegura tus fechas y bloquea tu paquete. Sin riesgo ni compromisos extras.
+        </p>
+      </div>
+
+      <div class="text-center reveal" style="transition-delay:.15s">
+        <div class="step-num float" style="background:linear-gradient(135deg,#5B21B6,#D946EF); box-shadow:0 8px 28px rgba(217,70,239,.4); animation-delay:.4s">2</div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3"
+            data-es="Pagos a Tu Ritmo" data-en="Pay at Your Pace">Pagos a Tu Ritmo</h3>
+        <p class="text-gray-500 text-sm leading-relaxed"
+           data-es="Tú decides cuánto pagar cada mes. Trabajamos contigo para crear un calendario de pagos que se adapte a tu presupuesto."
+           data-en="You decide how much to pay each month. We work with you to create a payment schedule that fits your budget.">
+          Tú decides cuánto pagar cada mes. Trabajamos contigo para crear un calendario de pagos que se adapte a tu presupuesto.
+        </p>
+      </div>
+
+      <div class="text-center reveal" style="transition-delay:.30s">
+        <div class="step-num float" style="background:linear-gradient(135deg,#D946EF,#F59E0B); box-shadow:0 8px 28px rgba(245,158,11,.4); animation-delay:.8s">3</div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3"
+            data-es="¡A Disfrutar!" data-en="Enjoy Your Trip!">¡A Disfrutar!</h3>
+        <p class="text-gray-500 text-sm leading-relaxed"
+           data-es="El saldo restante se liquida 30 días antes de tu viaje. Después, solo te preocupas por hacer las maletas y vivir la magia."
+           data-en="The remaining balance is due 30 days before your trip. After that, just worry about packing and living the magic.">
+          El saldo restante se liquida 30 días antes de tu viaje. Después, solo te preocupas por hacer las maletas y vivir la magia.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ $200 CALLOUT ══════════ -->
+<section class="py-20 px-4" style="background:linear-gradient(150deg,#3B0764 0%,#5B21B6 55%,#7C3AED 100%);">
+  <div class="max-w-3xl mx-auto text-center reveal">
+
+    <div class="deposit-card p-10 md:p-16">
+      <p class="label !text-purple-300 mb-6" data-es="Tu Punto de Partida" data-en="Your Starting Point">Tu Punto de Partida</p>
+
+      <div class="font-heading text-[96px] md:text-[128px] font-bold leading-none text-white mb-2" style="text-shadow:0 0 60px rgba(217,70,239,.5);">$200</div>
+
+      <p class="text-white/70 text-xl md:text-2xl mb-10"
+         data-es="Eso es todo lo que necesitas para reservar tu vacación Disney."
+         data-en="That's all you need to secure your Disney vacation.">
+        Eso es todo lo que necesitas para reservar tu vacación Disney.
+      </p>
+
+      <div class="flex flex-wrap justify-center gap-3 mb-10">
+        <span class="trust-chip">
+          <i class="fas fa-lock" style="color:#A78BFA;"></i>
+          <span data-es="Pago Seguro" data-en="Secure Payment">Pago Seguro</span>
+        </span>
+        <span class="trust-chip">
+          <i class="fas fa-calendar-check" style="color:#60A5FA;"></i>
+          <span data-es="Fechas Garantizadas" data-en="Dates Guaranteed">Fechas Garantizadas</span>
+        </span>
+        <span class="trust-chip">
+          <i class="fas fa-shield-halved" style="color:#34D399;"></i>
+          <span data-es="Sin Penalidades Ocultas" data-en="No Hidden Penalties">Sin Penalidades Ocultas</span>
+        </span>
+      </div>
+
+      <a href="https://wa.me/14076705462" target="_blank" rel="noopener"
+         class="btn-primary !text-base !py-4 !px-10"
+         style="background:#25D366; box-shadow:0 6px 24px rgba(37,211,102,.4);"
+         data-es="Reservar con $200 ahora" data-en="Book with $200 now">
+        <i class="fab fa-whatsapp text-xl"></i>
+        Reservar con $200 ahora
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ HOW CUSTOM PAYMENTS WORK ══════════ -->
+<section class="py-24 px-4 relative">
+  <div class="absolute inset-0 pointer-events-none -z-10" style="background:linear-gradient(160deg,#F9F6FF 0%,#EDE9FE 100%);">
+    <div class="orb w-[400px] h-[400px] bottom-0 left-[10%] opacity-25 filter blur-[90px]" style="background:#C084FC;"></div>
+  </div>
+  <div class="max-w-5xl mx-auto">
+
+    <div class="text-center mb-16 reveal">
+      <span class="label" data-es="¿Cómo Funciona?" data-en="How Does It Work?">¿Cómo Funciona?</span>
+      <h2 class="font-heading text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+          data-es="Pagos 100% Personalizados" data-en="100% Personalized Payments">Pagos 100% Personalizados</h2>
+      <p class="text-gray-500 max-w-xl mx-auto"
+         data-es="No hay planes rígidos ni cuotas fijas. Cada familia es diferente y tu plan de pagos también lo será."
+         data-en="No rigid plans or fixed installments. Every family is different, and your payment plan will be too.">
+        No hay planes rígidos ni cuotas fijas. Cada familia es diferente y tu plan de pagos también lo será.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-7">
+
+      <div class="info-card reveal">
+        <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-5" style="background:linear-gradient(135deg,rgba(124,58,237,.1),rgba(217,70,239,.07)); border:1.5px solid rgba(124,58,237,.18);">
+          <i class="fas fa-sliders text-2xl" style="color:#7C3AED;"></i>
+        </div>
+        <h3 class="text-lg font-bold text-gray-900 mb-3"
+            data-es="Tú Eliges el Monto" data-en="You Choose the Amount">Tú Eliges el Monto</h3>
+        <p class="text-gray-500 text-sm leading-relaxed"
+           data-es="Paga lo que puedas cada mes. No hay un mínimo obligatorio — trabajamos contigo para que el viaje sea posible."
+           data-en="Pay what you can each month. There's no required minimum — we work with you to make the trip happen.">
+          Paga lo que puedas cada mes. No hay un mínimo obligatorio — trabajamos contigo para que el viaje sea posible.
+        </p>
+      </div>
+
+      <div class="info-card reveal" style="transition-delay:.12s; border-top-color:#D946EF;">
+        <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-5" style="background:linear-gradient(135deg,rgba(217,70,239,.1),rgba(124,58,237,.07)); border:1.5px solid rgba(217,70,239,.18);">
+          <i class="fas fa-circle-dollar-to-slot text-2xl" style="color:#D946EF;"></i>
+        </div>
+        <h3 class="text-lg font-bold text-gray-900 mb-3"
+            data-es="Sin Cargos Ocultos" data-en="No Hidden Fees">Sin Cargos Ocultos</h3>
+        <p class="text-gray-500 text-sm leading-relaxed"
+           data-es="Solo pagas el total de tu paquete vacacional, dividido a tu manera. Sin intereses, sin recargos, sin sorpresas."
+           data-en="You only pay the total of your vacation package, split your way. No interest, no surcharges, no surprises.">
+          Solo pagas el total de tu paquete vacacional, dividido a tu manera. Sin intereses, sin recargos, sin sorpresas.
+        </p>
+      </div>
+
+      <div class="info-card reveal" style="transition-delay:.24s; border-top-color:#F59E0B;">
+        <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-5" style="background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(251,191,36,.07)); border:1.5px solid rgba(245,158,11,.18);">
+          <i class="fas fa-calendar-days text-2xl" style="color:#F59E0B;"></i>
+        </div>
+        <h3 class="text-lg font-bold text-gray-900 mb-3"
+            data-es="Plazo Claro" data-en="Clear Timeline">Plazo Claro</h3>
+        <p class="text-gray-500 text-sm leading-relaxed"
+           data-es="El saldo total debe estar pagado 30 días antes de tu llegada. Te enviamos recordatorios para que nunca te agarremos de sorpresa."
+           data-en="The full balance must be paid 30 days before your arrival. We send you reminders so you're never caught off guard.">
+          El saldo total debe estar pagado 30 días antes de tu llegada. Te enviamos recordatorios para que nunca te agarremos de sorpresa.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PARKS & SERVICES COVERED ══════════ -->
+<section class="py-20 px-4" style="background:linear-gradient(160deg,#EDE9FE 0%,#F9F6FF 100%);">
+  <div class="max-w-5xl mx-auto">
+
+    <div class="text-center mb-14 reveal">
+      <span class="label" data-es="Qué Incluye" data-en="What's Included">Qué Incluye</span>
+      <h2 class="font-heading text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+          data-es="Toda la Magia, un Solo Plan" data-en="All the Magic, One Plan">Toda la Magia, un Solo Plan</h2>
+      <p class="text-gray-500 max-w-lg mx-auto"
+         data-es="Tu plan de pagos puede cubrir cualquier parque, hotel, boleto o servicio que ofrezcamos."
+         data-en="Your payment plan can cover any park, hotel, ticket, or service we offer.">
+        Tu plan de pagos puede cubrir cualquier parque, hotel, boleto o servicio que ofrezcamos.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 reveal">
+      <div class="park-chip">
+        <img src="brand_assets/Magic Kingdom Picture.jpg" alt="Magic Kingdom" class="park-thumb" />
+        <span>Magic Kingdom</span>
+      </div>
+      <div class="park-chip">
+        <img src="brand_assets/epcot picture.jpg" alt="EPCOT" class="park-thumb" />
+        <span>EPCOT</span>
+      </div>
+      <div class="park-chip">
+        <img src="brand_assets/hollywood studios picture.jpg" alt="Hollywood Studios" class="park-thumb" />
+        <span>Hollywood Studios</span>
+      </div>
+      <div class="park-chip">
+        <img src="brand_assets/animal kingdom picture.jpg" alt="Animal Kingdom" class="park-thumb" />
+        <span>Animal Kingdom</span>
+      </div>
+      <div class="park-chip">
+        <img src="brand_assets/epic universe.jpg" alt="Epic Universe" class="park-thumb" />
+        <span>Epic Universe</span>
+      </div>
+      <div class="park-chip">
+        <img src="brand_assets/universal studios.jpg" alt="Universal Studios" class="park-thumb" />
+        <span>Universal Studios</span>
+      </div>
+      <div class="park-chip">
+        <img src="brand_assets/island of adventure.jpg" alt="Islands of Adventure" class="park-thumb" />
+        <span>Islands of Adventure</span>
+      </div>
+      <div class="park-chip">
+        <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background:linear-gradient(135deg,#7C3AED,#D946EF);">
+          <i class="fas fa-hotel text-white text-sm"></i>
+        </div>
+        <span data-es="Hoteles Disney" data-en="Disney Hotels">Hoteles Disney</span>
+      </div>
+      <div class="park-chip">
+        <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background:linear-gradient(135deg,#5B21B6,#7C3AED);">
+          <i class="fas fa-users text-white text-sm"></i>
+        </div>
+        <span data-es="Paquetes de Grupo" data-en="Group Packages">Paquetes de Grupo</span>
+      </div>
+      <div class="park-chip">
+        <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background:linear-gradient(135deg,#D946EF,#EC4899);">
+          <i class="fas fa-crown text-white text-sm"></i>
+        </div>
+        <span data-es="Guías VIP" data-en="VIP Guides">Guías VIP</span>
+      </div>
+      <div class="park-chip">
+        <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background:linear-gradient(135deg,#F59E0B,#FBBF24);">
+          <i class="fas fa-ticket text-white text-sm"></i>
+        </div>
+        <span data-es="Boletos de Parque" data-en="Park Tickets">Boletos de Parque</span>
+      </div>
+      <div class="park-chip">
+        <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background:linear-gradient(135deg,#10B981,#34D399);">
+          <i class="fas fa-utensils text-white text-sm"></i>
+        </div>
+        <span data-es="Reservas de Comida" data-en="Dining Reservations">Reservas de Comida</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FAQ ══════════ -->
+<section class="py-24 px-4">
+  <div class="max-w-3xl mx-auto">
+
+    <div class="text-center mb-14 reveal">
+      <span class="label" data-es="Preguntas Frecuentes" data-en="FAQ">Preguntas Frecuentes</span>
+      <h2 class="font-heading text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+          data-es="Tus Dudas, Resueltas" data-en="Your Questions, Answered">Tus Dudas, Resueltas</h2>
+    </div>
+
+    <div class="glass-panel" style="border-radius:20px; padding:8px 32px;">
+
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span data-es="¿Hay un mínimo de pago mensual?" data-en="Is there a minimum monthly payment?">¿Hay un mínimo de pago mensual?</span>
+          <i class="fas fa-plus faq-icon"></i>
+        </button>
+        <div class="faq-a">
+          <p data-es="No. No existe un mínimo obligatorio. Trabajamos contigo para diseñar un plan de pagos que se adapte a tu realidad financiera. Lo único que se requiere es el depósito inicial de $200 para reservar."
+             data-en="No. There is no required minimum. We work with you to design a payment plan that fits your financial reality. The only requirement is the $200 initial deposit to book.">
+            No. No existe un mínimo obligatorio. Trabajamos contigo para diseñar un plan de pagos que se adapte a tu realidad financiera. Lo único que se requiere es el depósito inicial de $200 para reservar.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal" style="transition-delay:.05s">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span data-es="¿Cuándo debo pagar el saldo completo?" data-en="When is the full balance due?">¿Cuándo debo pagar el saldo completo?</span>
+          <i class="fas fa-plus faq-icon"></i>
+        </button>
+        <div class="faq-a">
+          <p data-es="El saldo total de tu paquete vacacional debe estar pagado 30 días antes de la fecha de llegada. Te mantendremos informada durante todo el proceso con recordatorios puntuales."
+             data-en="The full balance of your vacation package must be paid 30 days before your arrival date. We'll keep you informed throughout the process with timely reminders.">
+            El saldo total de tu paquete vacacional debe estar pagado 30 días antes de la fecha de llegada. Te mantendremos informada durante todo el proceso con recordatorios puntuales.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal" style="transition-delay:.10s">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span data-es="¿Qué pasa si necesito cancelar?" data-en="What if I need to cancel?">¿Qué pasa si necesito cancelar?</span>
+          <i class="fas fa-plus faq-icon"></i>
+        </button>
+        <div class="faq-a">
+          <p data-es="Las políticas de cancelación dependen del proveedor (hotel, parques, etc.). Te explicamos todas las condiciones antes de confirmar tu reserva para que tomes la mejor decisión. Contáctanos para discutir tu situación específica."
+             data-en="Cancellation policies depend on the provider (hotel, parks, etc.). We'll explain all conditions before confirming your booking so you can make the best decision. Contact us to discuss your specific situation.">
+            Las políticas de cancelación dependen del proveedor (hotel, parques, etc.). Te explicamos todas las condiciones antes de confirmar tu reserva para que tomes la mejor decisión. Contáctanos para discutir tu situación específica.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal" style="transition-delay:.15s">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span data-es="¿Puedo hacer pagos extra para liquidar antes?" data-en="Can I make extra payments to pay off early?">¿Puedo hacer pagos extra para liquidar antes?</span>
+          <i class="fas fa-plus faq-icon"></i>
+        </button>
+        <div class="faq-a">
+          <p data-es="¡Por supuesto! Puedes hacer pagos adicionales en cualquier momento sin ningún cargo extra. Muchos de nuestros clientes prefieren liquidar antes para llegar al viaje con todo pagado y sin preocupaciones."
+             data-en="Absolutely! You can make additional payments at any time with no extra charge. Many of our clients prefer to pay off early so they arrive at their trip worry-free with everything settled.">
+            ¡Por supuesto! Puedes hacer pagos adicionales en cualquier momento sin ningún cargo extra. Muchos de nuestros clientes prefieren liquidar antes para llegar al viaje con todo pagado y sin preocupaciones.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal" style="transition-delay:.20s; border-bottom:none;">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span data-es="¿Cómo realizo mis pagos?" data-en="How do I make my payments?">¿Cómo realizo mis pagos?</span>
+          <i class="fas fa-plus faq-icon"></i>
+        </button>
+        <div class="faq-a">
+          <p data-es="Aceptamos transferencias bancarias, Zelle, y otras formas de pago electrónico. Tu agente te guiará por los métodos disponibles al momento de confirmar tu plan personalizado."
+             data-en="We accept bank transfers, Zelle, and other electronic payment methods. Your agent will guide you through the available methods when confirming your personalized plan.">
+            Aceptamos transferencias bancarias, Zelle, y otras formas de pago electrónico. Tu agente te guiará por los métodos disponibles al momento de confirmar tu plan personalizado.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CTA ══════════ -->
+<section class="cta-bg py-24 px-4">
+  <div class="max-w-3xl mx-auto text-center reveal">
+    <span class="deposit-badge mb-6 inline-flex" data-es="✦ Da el Primer Paso Hoy" data-en="✦ Take the First Step Today">✦ Da el Primer Paso Hoy</span>
+    <h2 class="font-heading text-4xl md:text-5xl font-bold text-white mt-4 mb-6"
+        data-es="¿Lista Para Empezar?" data-en="Ready to Start?">¿Lista Para Empezar?</h2>
+    <p class="text-white/65 text-lg max-w-2xl mx-auto mb-10"
+       data-es="Habla con uno de nuestros agentes hoy. Sin compromiso, sin costos — solo ponemos en marcha tu sueño Disney."
+       data-en="Talk to one of our agents today. No commitment, no cost — we just set your Disney dream in motion.">
+      Habla con uno de nuestros agentes hoy. Sin compromiso, sin costos — solo ponemos en marcha tu sueño Disney.
+    </p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="https://wa.me/14076705462" target="_blank" rel="noopener"
+         class="btn-primary !text-base !py-4 !px-10"
+         style="background:#25D366; box-shadow:0 6px 24px rgba(37,211,102,.4);"
+         data-es="Escribir por WhatsApp" data-en="Message on WhatsApp">
+        <i class="fab fa-whatsapp text-xl"></i>
+        Escribir por WhatsApp
+      </a>
+      <a href="index.html#contacto" class="btn-outline"
+         data-es="Solicitar Cotización" data-en="Request a Quote">
+        Solicitar Cotización
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="py-16 px-4">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+
+      <div class="md:col-span-2">
+        <img id="footer-logo"
+             src="brand_assets/website_logoonly_transparent_background otro eslogan 2022 -.png"
+             alt="Magic Tours Planner" class="h-16 object-contain mb-4" crossorigin="anonymous" />
+        <p class="text-white/55 text-sm leading-relaxed max-w-sm mb-6"
+           data-es="Tu planificador autorizado de vacaciones Disney. Especializados en familias latinas, grupos y eventos especiales. Magia a Tu Manera."
+           data-en="Your authorized Disney vacation planner. Specialized in Latino families, groups, and special events. Magic Your Way.">
+          Tu planificador autorizado de vacaciones Disney. Especializados en familias latinas, grupos y eventos especiales. Magia a Tu Manera.
+        </p>
+        <div class="flex gap-3">
+          <a href="#" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/65 hover:text-white transition-all text-sm"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/65 hover:text-white transition-all text-sm"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/65 hover:text-white transition-all text-sm"><i class="fab fa-tiktok"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/65 hover:text-white transition-all text-sm"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-wider"
+            data-es="Servicios" data-en="Services">Servicios</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="index.html#servicios" class="text-white/50 hover:text-white transition-colors" data-es="Magic VIP Tours" data-en="Magic VIP Tours">Magic VIP Tours</a></li>
+          <li><a href="index.html#servicios" class="text-white/50 hover:text-white transition-colors" data-es="Reservas de Hotel" data-en="Hotel Bookings">Reservas de Hotel</a></li>
+          <li><a href="index.html#servicios" class="text-white/50 hover:text-white transition-colors" data-es="Paquetes Vacacionales" data-en="Vacation Packages">Paquetes Vacacionales</a></li>
+          <li><a href="payment-plans.html" class="hover:text-white transition-colors font-semibold" style="color:#A78BFA;" data-es="Planes de Pago" data-en="Payment Plans">Planes de Pago</a></li>
+          <li><a href="index.html#grupos"    class="text-white/50 hover:text-white transition-colors" data-es="Grupos &amp; Eventos" data-en="Groups &amp; Events">Grupos &amp; Eventos</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-wider"
+            data-es="Contacto" data-en="Contact">Contacto</h4>
+        <ul class="space-y-3 text-sm">
+          <li class="flex items-center gap-2 text-white/50">
+            <i class="fab fa-whatsapp text-green-400 w-4"></i>
+            <span>WhatsApp</span>
+          </li>
+          <li class="flex items-start gap-2 text-white/50">
+            <i class="fas fa-envelope w-4 mt-0.5" style="color:#A78BFA;"></i>
+            <span>info@magictoursplanner.com</span>
+          </li>
+          <li class="flex items-start gap-2 text-white/50">
+            <i class="fas fa-clock w-4 mt-0.5" style="color:#A78BFA;"></i>
+            <span data-es="Lun – Sáb: 9am – 7pm EST" data-en="Mon – Sat: 9am – 7pm EST">Lun – Sáb: 9am – 7pm EST</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-3">
+      <p class="text-white/35 text-sm"
+         data-es="© 2026 Magic Tours Planner. Todos los derechos reservados."
+         data-en="© 2026 Magic Tours Planner. All rights reserved.">
+        © 2026 Magic Tours Planner. Todos los derechos reservados.
+      </p>
+      <p class="text-white/25 text-xs italic"
+         data-es="Magic Tours Planner no está afiliado con The Walt Disney Company."
+         data-en="Magic Tours Planner is not affiliated with The Walt Disney Company.">
+        Magic Tours Planner no está afiliado con The Walt Disney Company.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Language toggle ────────────────────────────────────────────────────────
+function setLang(lang) {
+  document.querySelectorAll('[data-es]').forEach(el => {
+    el.textContent = el.dataset[lang] || el.textContent;
+  });
+  ['btn-es','btn-en','btn-es-m','btn-en-m'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) btn.classList.toggle('on', btn.id.includes(lang === 'es' ? 'es' : 'en'));
+  });
+  localStorage.setItem('pp-lang', lang);
+}
+document.addEventListener('DOMContentLoaded', () => {
+  setLang(localStorage.getItem('pp-lang') || 'es');
+});
+
+// ── Mobile menu ────────────────────────────────────────────────────────────
+function toggleMob() {
+  const m = document.getElementById('mob-menu');
+  const ic = document.getElementById('ham-ic');
+  m.classList.toggle('open');
+  ic.className = m.classList.contains('open') ? 'fas fa-times' : 'fas fa-bars';
+}
+function closeMob() {
+  document.getElementById('mob-menu').classList.remove('open');
+  document.getElementById('ham-ic').className = 'fas fa-bars';
+}
+
+// ── Nav solid on scroll ────────────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('solid', scrollY > 60);
+}, { passive: true });
+
+// ── FAQ ────────────────────────────────────────────────────────────────────
+function toggleFaq(btn) {
+  const answer = btn.nextElementSibling;
+  const isOpen = answer.classList.contains('open');
+  document.querySelectorAll('.faq-q').forEach(b => {
+    b.classList.remove('open');
+    b.nextElementSibling.classList.remove('open');
+  });
+  if (!isOpen) {
+    btn.classList.add('open');
+    answer.classList.add('open');
+  }
+}
+
+// ── Scroll reveal ──────────────────────────────────────────────────────────
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ── Smooth scroll ──────────────────────────────────────────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (!t) return;
+    e.preventDefault();
+    window.scrollTo({ top: t.getBoundingClientRect().top + scrollY - 76, behavior: 'smooth' });
+  });
+});
+
+// ── Logo white bg removal ──────────────────────────────────────────────────
+function removeWhiteBg(img) {
+  try {
+    const c = document.createElement('canvas');
+    const ctx = c.getContext('2d');
+    c.width = img.naturalWidth; c.height = img.naturalHeight;
+    ctx.drawImage(img, 0, 0);
+    const id = ctx.getImageData(0, 0, c.width, c.height);
+    const d = id.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const r = d[i], g = d[i+1], b = d[i+2];
+      if (r > 230 && g > 230 && b > 230) {
+        const w = Math.min(r, g, b);
+        d[i+3] = Math.round((255 - w) / 25 * 255);
+      }
+    }
+    ctx.putImageData(id, 0, 0);
+    img.src = c.toDataURL('image/png');
+  } catch(e) { console.warn('Logo bg removal skipped:', e); }
+}
+['nav-logo','footer-logo'].forEach(id => {
+  const img = document.getElementById(id);
+  if (!img) return;
+  if (img.complete && img.naturalWidth) removeWhiteBg(img);
+  else img.addEventListener('load', () => removeWhiteBg(img));
+});
+</script>
+</body>
+</html>
